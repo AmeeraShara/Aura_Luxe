@@ -71,13 +71,14 @@
             <!-- Upload Images -->
             <div>
                 <label class="block font-medium">Upload Images</label>
-                <div class="border-2 border-dashed rounded-lg p-6 text-center">
-                    <input type="file" name="images[]" multiple class="hidden" id="imagesInput">
+                <div id="dropZone" class="border-2 border-dashed rounded-lg p-6 text-center cursor-pointer">
+                    <input type="file" name="images[]" multiple class="hidden" id="imagesInput" accept=".png,.jpg,.jpeg">
                     <label for="imagesInput" class="cursor-pointer">
                         <div class="text-gray-600">Drag & Drop product images here or click to upload</div>
                         <small class="text-gray-400">Max 5 files, .png, .jpeg, .jpg</small>
                     </label>
                 </div>
+                <div id="previewContainer" class="flex gap-4 mt-4 flex-wrap"></div>
             </div>
 
             <!-- Description -->
@@ -107,6 +108,55 @@
         </form>
     </div>
 </div>
+
+<!-- Script for Image Preview + Drag & Drop -->
+<script>
+    const input = document.getElementById("imagesInput");
+    const previewContainer = document.getElementById("previewContainer");
+    const dropZone = document.getElementById("dropZone");
+
+    function handleFiles(files) {
+        previewContainer.innerHTML = ""; // clear previews
+        if (files.length > 5) {
+            alert("You can only upload up to 5 images.");
+            input.value = "";
+            return;
+        }
+
+        Array.from(files).forEach(file => {
+            if (!file.type.startsWith("image/")) return;
+
+            const reader = new FileReader();
+            reader.onload = e => {
+                const img = document.createElement("img");
+                img.src = e.target.result;
+                img.classList.add("w-24", "h-24", "object-cover", "rounded-lg", "shadow");
+                previewContainer.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    input.addEventListener("change", () => handleFiles(input.files));
+
+    // Drag & Drop Support
+    dropZone.addEventListener("dragover", e => {
+        e.preventDefault();
+        dropZone.classList.add("bg-gray-100");
+    });
+
+    dropZone.addEventListener("dragleave", () => {
+        dropZone.classList.remove("bg-gray-100");
+    });
+
+    dropZone.addEventListener("drop", e => {
+        e.preventDefault();
+        dropZone.classList.remove("bg-gray-100");
+        const files = e.dataTransfer.files;
+        input.files = files; // assign dropped files to input
+        handleFiles(files);
+    });
+</script>
 
 </body>
 </html>
