@@ -115,15 +115,17 @@
     const previewContainer = document.getElementById("previewContainer");
     const dropZone = document.getElementById("dropZone");
 
-    function handleFiles(files) {
-        previewContainer.innerHTML = ""; // clear previews
-        if (files.length > 5) {
-            alert("You can only upload up to 5 images.");
-            input.value = "";
-            return;
-        }
+    let selectedFiles = [];
 
-        Array.from(files).forEach(file => {
+    function handleFiles(files) {
+        const newFiles = Array.from(files);
+
+        // merge but keep max 5
+        selectedFiles = [...selectedFiles, ...newFiles].slice(0, 5);
+
+        // clear previews & redraw all
+        previewContainer.innerHTML = "";
+        selectedFiles.forEach(file => {
             if (!file.type.startsWith("image/")) return;
 
             const reader = new FileReader();
@@ -152,11 +154,18 @@
     dropZone.addEventListener("drop", e => {
         e.preventDefault();
         dropZone.classList.remove("bg-gray-100");
-        const files = e.dataTransfer.files;
-        input.files = files; // assign dropped files to input
-        handleFiles(files);
+        handleFiles(e.dataTransfer.files);
+    });
+
+    // Ensure files are sent with the form
+    document.querySelector("form").addEventListener("submit", e => {
+        const formData = new FormData(e.target);
+        selectedFiles.forEach(file => formData.append("images[]", file));
+
+
     });
 </script>
+
 
 </body>
 </html>

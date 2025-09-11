@@ -15,7 +15,7 @@ Schema::create('products', function (Blueprint $table) {
     $table->string('sizes')->nullable();     
     $table->string('color')->nullable();     
     $table->text('description')->nullable();
-    $table->string('images')->nullable();    
+$table->text('images')->nullable();
     $table->boolean('status')->default(1);
     $table->timestamps();
 });

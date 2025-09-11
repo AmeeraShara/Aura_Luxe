@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Product;
@@ -26,12 +27,15 @@ class ProductController extends Controller
         // Handle multiple image uploads
         $imagePaths = [];
         if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $fileName = time().'_'.$image->getClientOriginalName();
+            foreach ($request->file('images') as $index => $image) {
+                // Add index to filename to avoid overwriting in same second
+                $fileName = time() . '_' . $index . '_' . $image->getClientOriginalName();
                 $image->move(public_path('uploads/products'), $fileName);
-                $imagePaths[] = 'uploads/products/'.$fileName;
+                $imagePaths[] = 'uploads/products/' . $fileName;
             }
         }
+
+        // Save all paths as comma-separated string
         $product->images = $imagePaths ? implode(',', $imagePaths) : null;
 
         $product->save();
