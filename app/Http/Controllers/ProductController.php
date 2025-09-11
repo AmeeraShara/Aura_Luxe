@@ -23,22 +23,19 @@ class ProductController extends Controller
         $product->color = $request->color;
         $product->description = $request->description;
         $product->status = $request->has('status') ? 1 : 0;
+        $product->save();
 
-        // Handle multiple image uploads
-        $imagePaths = [];
+        // Save multiple images in separate table
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $index => $image) {
-                // Add index to filename to avoid overwriting in same second
                 $fileName = time() . '_' . $index . '_' . $image->getClientOriginalName();
                 $image->move(public_path('uploads/products'), $fileName);
-                $imagePaths[] = 'uploads/products/' . $fileName;
+
+                $product->images()->create([
+                    'path' => 'uploads/products/' . $fileName
+                ]);
             }
         }
-
-        // Save all paths as comma-separated string
-        $product->images = $imagePaths ? implode(',', $imagePaths) : null;
-
-        $product->save();
 
         return redirect()->route('products.create')->with('success', '✅ Product saved successfully!');
     }
