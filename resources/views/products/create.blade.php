@@ -35,8 +35,17 @@
                     </div>
                     <div>
                         <label class="block font-medium">Product Category</label>
-                        <input type="text" name="category" class="w-full border rounded-lg p-2" placeholder="Enter category">
+                        <select name="category" class="w-full border rounded-lg p-2">
+                            <option value="">-- Select Category --</option>
+                            <option value="Shirts">Shirts</option>
+                            <option value="T-Shirts">T-Shirts</option>
+                            <option value="Dresses">Dresses</option>
+                            <option value="Pants">Pants</option>
+                            <option value="Skirts">Skirts</option>
+                            <option value="Accessories">Accessories</option>
+                        </select>
                     </div>
+
                 </div>
 
                 <!-- Price + Stock -->
@@ -159,15 +168,12 @@
             handleFiles(e.dataTransfer.files);
         });
 
-
-
         document.querySelector("form").addEventListener("submit", e => {
             const dataTransfer = new DataTransfer();
             selectedFiles.forEach(file => dataTransfer.items.add(file));
             input.files = dataTransfer.files;
         });
     </script>
-
 
 </body>
 
