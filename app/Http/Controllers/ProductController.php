@@ -20,7 +20,7 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->stock_quantity = $request->stock_quantity;
         $product->sizes = $request->sizes ? implode(',', $request->sizes) : null;
-        $product->color = $request->color;
+        $product->colors = $request->colors ? implode(',', $request->colors) : null;
         $product->description = $request->description;
         $product->status = $request->has('status') ? 1 : 0;
         $product->save();

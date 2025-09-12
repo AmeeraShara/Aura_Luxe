@@ -73,11 +73,18 @@
                             @endforeach
                         </div>
                     </div>
+                    <!-- Multiple Color Options -->
                     <div>
-                        <label class="block font-medium">Color Option</label>
-                        <input type="color" name="color" value="#000000" class="w-16 h-10 border rounded-lg">
+                        <label class="block font-medium">Color Options</label>
+                        <div id="colorContainer" class="flex flex-wrap gap-3 mt-2"></div>
+
+                        <button type="button" id="addColorBtn"
+                            class="mt-2 px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300">
+                            + Add Color
+                        </button>
                     </div>
                 </div>
+
 
                 <!-- Upload Images -->
                 <div>
@@ -173,7 +180,43 @@
             selectedFiles.forEach(file => dataTransfer.items.add(file));
             input.files = dataTransfer.files;
         });
+
+        const colorContainer = document.getElementById("colorContainer");
+        const addColorBtn = document.getElementById("addColorBtn");
+
+        function createColorInput(value = "#000000") {
+            const wrapper = document.createElement("div");
+            wrapper.classList.add("flex", "items-center", "gap-2");
+
+            const input = document.createElement("input");
+            input.type = "color";
+            input.name = "colors[]";
+            input.value = value;
+            input.classList.add("w-16", "h-10", "border", "rounded-lg");
+
+            const removeBtn = document.createElement("button");
+            removeBtn.type = "button";
+            removeBtn.textContent = "✖";
+            removeBtn.classList.add("text-red-500", "hover:text-red-700");
+
+            removeBtn.onclick = () => wrapper.remove();
+
+            wrapper.appendChild(input);
+            wrapper.appendChild(removeBtn);
+
+            return wrapper;
+        }
+
+        addColorBtn.addEventListener("click", () => {
+            colorContainer.appendChild(createColorInput());
+        });
+
+        // Add one default color input on load
+        window.addEventListener("DOMContentLoaded", () => {
+            colorContainer.appendChild(createColorInput());
+        });
     </script>
+
 
 </body>
 
