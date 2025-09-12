@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Models\ProductImage;
 
 class ProductController extends Controller
 {
@@ -39,4 +40,24 @@ class ProductController extends Controller
 
         return redirect()->route('products.create')->with('success', '✅ Product saved successfully!');
     }
+
+
+
+public function show($id)
+{
+    // Get product
+    $product = Product::findOrFail($id);
+
+    // ✅ Fetch images separately using product_id
+    $images = ProductImage::where('product_id', $id)->get();
+
+    // ✅ Related products (same category, exclude current)
+    $relatedProducts = Product::where('category', $product->category)
+        ->where('id', '!=', $id)
+        ->take(4)
+        ->get();
+
+    return view('products.show', compact('product', 'images', 'relatedProducts'));
+}
+
 }
