@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('product_image')->nullable();
 
             // Variations
-            $table->string('selected_color')->nullable();
-            $table->string('selected_size')->nullable();
+            $table->text('selected_color')->nullable();
+            $table->text('selected_size')->nullable();
 
             // Quantity
             $table->integer('quantity')->default(1);

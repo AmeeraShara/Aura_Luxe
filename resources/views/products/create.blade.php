@@ -34,17 +34,19 @@
                         <input type="text" name="name" class="w-full border rounded-lg p-2" placeholder="Enter product name">
                     </div>
                     <div>
-                        <label class="block font-medium">Product Category</label>
-                        <select name="category" class="w-full border rounded-lg p-2">
-                            <option value="">-- Select Category --</option>
-                            <option value="Shirts">Shirts</option>
-                            <option value="T-Shirts">T-Shirts</option>
-                            <option value="Dresses">Dresses</option>
-                            <option value="Pants">Pants</option>
-                            <option value="Skirts">Skirts</option>
-                            <option value="Accessories">Accessories</option>
-                        </select>
-                    </div>
+                       <label class="block font-medium">Product Category</label>
+              <select name="category" class="w-full border rounded-lg p-2">
+                <option value="">-- Select Category --</option>
+                <option value="Men">MEN</option>
+                <option value="Women">WOMEN</option>
+                <option value="Kids">KIDS</option>
+                <option value="Dresses">DRESSES</option>
+                <option value="Formal-wear">FORMAL WEAR</option>
+                <option value="Casual">CASUAL COLLECTIONS</option>
+                <option value="Accessories">ACCESSORIES</option>
+              </select>
+            </div>
+          
 
                 </div>
 

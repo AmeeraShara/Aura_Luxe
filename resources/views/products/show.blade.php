@@ -95,15 +95,25 @@
             <p class="text-gray-600 mt-1">⭐ 4.8 (384 reviews)</p>
             <p class="text-2xl font-semibold mt-3">LKR {{ number_format($product->price, 2) }}</p>
 
-            <!-- Colors --> @if($product->colors) <div class="mt-6">
+            <!-- Colors -->
+            @if($product->colors)
+            <div class="mt-6">
                 <p class="font-medium mb-2">Colors:</p>
-                <div class="flex space-x-2">
-                    @foreach(explode(',', $product->colors) as $color) @php $clr = trim($color); @endphp
-                    <span class="color-circle" style="<?php echo 'background-color:' . $clr; ?>;" data-color="<?php echo $clr; ?>"></span>
+                <div class="flex space-x-2 flex-wrap">
+                    @foreach(explode(',', $product->colors) as $color)
+                    @php $clr = trim($color); @endphp
+                    <label>
+                        <!-- Checkbox (hidden), but keeps state for form -->
+                        <input type="checkbox" name="selected_colors[]" value="{{ $clr }}" class="hidden peer">
+
+                        <!-- Circle styled button that toggles when checked -->
+                        <span class="color-circle" style="<?php echo 'background-color:' . $clr; ?>;" data-color="<?php echo $clr; ?>"></span>
+                    </label>
                     @endforeach
                 </div>
             </div>
             @endif
+
 
             <!-- Sizes -->
             @if($product->sizes)
@@ -111,11 +121,12 @@
                 <p class="font-medium mb-2">Sizes:</p>
                 <div class="flex space-x-2 flex-wrap">
                     @foreach(explode(',', $product->sizes) as $size)
-                    <button type="button"
-                        class="size-button"
-                        data-size="{{ trim($size) }}">
-                        {{ trim($size) }}
-                    </button>
+                    <label>
+                        <input type="checkbox" name="selected_sizes[]" value="{{ trim($size) }}" class="hidden peer">
+                        <span class="size-button peer-checked:bg-black peer-checked:text-white peer-checked:border-black">
+                            {{ trim($size) }}
+                        </span>
+                    </label>
                     @endforeach
                 </div>
             </div>
@@ -162,13 +173,13 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
             @foreach($relatedProducts as $related)
             <div class="border p-2 rounded shadow hover:shadow-lg transition">
-               @if($related->images->isNotEmpty())
-    <img src="{{ asset($related->images->first()->path) }}"
-         class="w-full h-64 object-cover rounded">
-@else
-    <img src="{{ asset('uploads/products/default.jpg') }}"
-         class="w-full h-64 object-cover rounded">
-@endif
+                @if($related->images->isNotEmpty())
+                <img src="{{ asset($related->images->first()->path) }}"
+                    class="w-full h-64 object-cover rounded">
+                @else
+                <img src="{{ asset('uploads/products/default.jpg') }}"
+                    class="w-full h-64 object-cover rounded">
+                @endif
 
                 <h3 class="mt-2 font-semibold">{{ $related->name }}</h3>
                 <p class="text-gray-600">LKR {{ number_format($related->price, 2) }}</p>
