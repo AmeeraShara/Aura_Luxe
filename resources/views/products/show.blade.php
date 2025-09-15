@@ -162,11 +162,14 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
             @foreach($relatedProducts as $related)
             <div class="border p-2 rounded shadow hover:shadow-lg transition">
-                @php
-                $relatedImage = $related->images->first();
-                @endphp
-                <img src="{{ asset($relatedImage->path ?? 'default.jpg') }}"
-                    class="w-full h-64 object-cover rounded">
+               @if($related->images->isNotEmpty())
+    <img src="{{ asset($related->images->first()->path) }}"
+         class="w-full h-64 object-cover rounded">
+@else
+    <img src="{{ asset('uploads/products/default.jpg') }}"
+         class="w-full h-64 object-cover rounded">
+@endif
+
                 <h3 class="mt-2 font-semibold">{{ $related->name }}</h3>
                 <p class="text-gray-600">LKR {{ number_format($related->price, 2) }}</p>
             </div>
