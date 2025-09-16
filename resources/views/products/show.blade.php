@@ -76,14 +76,10 @@
         <!-- LEFT: Images -->
         <div class="product-images">
             @if($images->isNotEmpty())
-            <img src="{{ asset($images->first()->path) }}"
-                id="mainImage"
-                class="main mb-4">
-
+            <img src="{{ asset($images->first()->path) }}" id="mainImage" class="main mb-4">
             <div class="thumbnails">
                 @foreach($images as $image)
-                <img src="{{ asset($image->path) }}"
-                    onclick="document.getElementById('mainImage').src=this.src">
+                <img src="{{ asset($image->path) }}" onclick="document.getElementById('mainImage').src=this.src">
                 @endforeach
             </div>
             @endif
@@ -95,75 +91,56 @@
             <p class="text-gray-600 mt-1">⭐ 4.8 (384 reviews)</p>
             <p class="text-2xl font-semibold mt-3">LKR {{ number_format($product->price, 2) }}</p>
 
-            <!-- Colors -->
-            @if($product->colors)
-            <div class="mt-6">
-                <p class="font-medium mb-2">Colors:</p>
-                <div class="flex space-x-2 flex-wrap">
-                    @foreach(explode(',', $product->colors) as $color)
-                    @php $clr = trim($color); @endphp
-                    <label>
-                        <!-- Checkbox (hidden), but keeps state for form -->
-                        <input type="checkbox" name="selected_colors[]" value="{{ $clr }}" class="hidden peer">
-
-                        <!-- Circle styled button that toggles when checked -->
-                        <span class="color-circle" style="<?php echo 'background-color:' . $clr; ?>;" data-color="<?php echo $clr; ?>"></span>
-                    </label>
-                    @endforeach
-                </div>
-            </div>
-            @endif
-
-
-            <!-- Sizes -->
-            @if($product->sizes)
-            <div class="mt-6">
-                <p class="font-medium mb-2">Sizes:</p>
-                <div class="flex space-x-2 flex-wrap">
-                    @foreach(explode(',', $product->sizes) as $size)
-                    <label>
-                        <input type="checkbox" name="selected_sizes[]" value="{{ trim($size) }}" class="hidden peer">
-                        <span class="size-button peer-checked:bg-black peer-checked:text-white peer-checked:border-black">
-                            {{ trim($size) }}
-                        </span>
-                    </label>
-                    @endforeach
-                </div>
-            </div>
-            @endif
-
             <!-- Add to Cart -->
             <form method="POST" action="{{ route('cart.add', $product->id) }}" class="mt-8">
                 @csrf
 
-                <div class="flex items-center mb-4">
+                <!-- Colors -->
+                @if($product->colors)
+                <div class="mt-6">
+                    <p class="font-medium mb-2">Colors:</p>
+                    <div class="flex space-x-2 flex-wrap">
+                        @foreach(explode(',', $product->colors) as $color)
+                        @php $clr = trim($color); @endphp
+                        <label>
+                            <input type="checkbox" name="selected_colors[]" value="{{ $clr }}" class="hidden">
+                            <span class="color-circle" style="<?php echo 'background-color:' . $clr; ?>;" data-color="<?php echo $clr; ?>"></span> </label>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
+
+                <!-- Sizes -->
+                @if($product->sizes)
+                <div class="mt-6">
+                    <p class="font-medium mb-2">Sizes:</p>
+                    <div class="flex space-x-2 flex-wrap">
+                        @foreach(explode(',', $product->sizes) as $size)
+                        <label>
+                            <input type="checkbox" name="selected_sizes[]" value="{{ trim($size) }}" class="hidden">
+                            <span class="size-button">{{ trim($size) }}</span>
+                        </label>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
+
+                <!-- Quantity -->
+                <div class="flex items-center mb-4 mt-6">
                     <label class="mr-3 font-medium">Qty:</label>
-                    <input type="number"
-                        name="quantity"
-                        value="1"
-                        min="1"
-                        class="w-20 border px-2 py-1 rounded">
+                    <input type="number" name="quantity" value="1" min="1" class="w-20 border px-2 py-1 rounded">
                 </div>
 
-                <!-- Hidden input for selected color -->
-                <input type="hidden" name="selected_color" id="selectedColor">
-
-                <!-- Hidden input for selected size -->
-                <input type="hidden" name="selected_size" id="selectedSize">
-
+                <!-- Submit -->
                 <button type="submit"
                     class="w-full md:w-80 text-base font-medium px-10 py-2 rounded-lg shadow-md 
-           flex items-center justify-center gap-2 focus:outline-none focus:ring-0 transition-colors duration-300 ease-in-out"
+                           flex items-center justify-center gap-2 focus:outline-none focus:ring-0 transition-colors duration-300 ease-in-out"
                     style="background-color: white !important; color: black !important; border: none !important;"
                     onmouseover="this.style.backgroundColor='black'; this.style.color='white';"
                     onmouseout="this.style.backgroundColor='white'; this.style.color='black';">
                     🛒 <span>Add to Cart</span>
                 </button>
-
-
-
             </form>
-
         </div>
     </div>
 
@@ -174,13 +151,10 @@
             @foreach($relatedProducts as $related)
             <div class="border p-2 rounded shadow hover:shadow-lg transition">
                 @if($related->images->isNotEmpty())
-                <img src="{{ asset($related->images->first()->path) }}"
-                    class="w-full h-64 object-cover rounded">
+                <img src="{{ asset($related->images->first()->path) }}" class="w-full h-64 object-cover rounded">
                 @else
-                <img src="{{ asset('uploads/products/default.jpg') }}"
-                    class="w-full h-64 object-cover rounded">
+                <img src="{{ asset('uploads/products/default.jpg') }}" class="w-full h-64 object-cover rounded">
                 @endif
-
                 <h3 class="mt-2 font-semibold">{{ $related->name }}</h3>
                 <p class="text-gray-600">LKR {{ number_format($related->price, 2) }}</p>
             </div>
@@ -191,21 +165,21 @@
 </div>
 
 <script>
-    // Handle color selection
+    // Toggle color selection
     document.querySelectorAll('.color-circle').forEach(circle => {
         circle.addEventListener('click', function() {
-            document.querySelectorAll('.color-circle').forEach(c => c.classList.remove('selected'));
-            this.classList.add('selected');
-            document.getElementById('selectedColor').value = this.dataset.color;
+            this.classList.toggle('selected');
+            const checkbox = this.previousElementSibling;
+            checkbox.checked = !checkbox.checked;
         });
     });
 
-    // Handle size selection
+    // Toggle size selection
     document.querySelectorAll('.size-button').forEach(button => {
         button.addEventListener('click', function() {
-            document.querySelectorAll('.size-button').forEach(b => b.classList.remove('selected'));
-            this.classList.add('selected');
-            document.getElementById('selectedSize').value = this.dataset.size;
+            this.classList.toggle('selected');
+            const checkbox = this.previousElementSibling;
+            checkbox.checked = !checkbox.checked;
         });
     });
 </script>

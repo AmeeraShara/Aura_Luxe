@@ -9,6 +9,7 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
+
     public function up(): void
     {
         Schema::create('cart_items', function (Blueprint $table) {
@@ -22,9 +23,9 @@ return new class extends Migration
             $table->decimal('product_price', 10, 2);
             $table->string('product_image')->nullable();
 
-            // Variations
-            $table->text('selected_color')->nullable();
-            $table->text('selected_size')->nullable();
+            // Variations (JSON for multiple values)
+            $table->json('selected_colors')->nullable();
+            $table->json('selected_sizes')->nullable();
 
             // Quantity
             $table->integer('quantity')->default(1);

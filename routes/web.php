@@ -1,23 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Cart\CartController;
 
 Route::get('/', function () {
     return view('layouts.app');
 });
 
-use App\Http\Controllers\ProductController;
-
+//Create Product 
 Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
 Route::post('/products/store', [ProductController::class, 'store'])->name('products.store');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 
-//use App\Http\Controllers\CartController;
-
-//Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
-
-use App\Http\Controllers\Cart\CartController;
-
+//Cart
 Route::prefix('cart')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('cart.index');
     Route::post('/add/{id}', [CartController::class, 'add'])->name('cart.add');

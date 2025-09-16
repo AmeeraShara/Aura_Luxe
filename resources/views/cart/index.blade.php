@@ -22,9 +22,10 @@
                     <div>
                         <h3>{{ $item->product_name }}</h3>
                         <p>
-                            Size: {{ $item->selected_size ? str_replace(',', ', ', $item->selected_size) : '-' }} |
-                            Color: {{ $item->selected_color ? str_replace(',', ', ', $item->selected_color) : '-' }}
+                            Sizes: {{ $item->selected_sizes ? implode(', ', $item->selected_sizes) : '-' }} |
+                            Colors: {{ $item->selected_colors ? implode(', ', $item->selected_colors) : '-' }}
                         </p>
+
 
                     </div>
                     <div class="cart-actions">

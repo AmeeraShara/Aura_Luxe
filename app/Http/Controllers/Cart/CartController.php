@@ -16,31 +16,20 @@ class CartController extends Controller
     public function add(Request $request, $productId)
     {
         $product = Product::with('images')->findOrFail($productId);
-
-        // ✅ Get first product image (or null if none)
         $firstImage = ProductImage::where('product_id', $productId)->first()->path ?? null;
 
-        // ✅ Colors (convert array → string)
-        $selectedColors = $request->input('selected_colors'); 
-        if (is_array($selectedColors)) {
-            $selectedColors = implode(',', $selectedColors);
-        }
+        // Handle multiple selections (checkbox arrays)
+        $selectedColors = $request->input('selected_colors', []); 
+        $selectedSizes  = $request->input('selected_sizes', []);  
 
-        // ✅ Sizes (convert array → string)
-        $selectedSizes = $request->input('selected_sizes');
-        if (is_array($selectedSizes)) {
-            $selectedSizes = implode(',', $selectedSizes);
-        }
-
-        // ✅ Store snapshot in cart_items
         CartItem::create([
-            'product_id'     => $product->id,
-            'product_name'   => $product->name,
-            'product_price'  => $product->price,
-            'product_image'  => $firstImage,
-            'selected_color' => $selectedColors,
-            'selected_size'  => $selectedSizes,
-            'quantity'       => $request->quantity ?? 1,
+            'product_id'      => $product->id,
+            'product_name'    => $product->name,
+            'product_price'   => $product->price,
+            'product_image'   => $firstImage,
+            'selected_colors' => $selectedColors, // automatically cast to JSON
+            'selected_sizes'  => $selectedSizes,  // automatically cast to JSON
+            'quantity'        => $request->quantity ?? 1,
         ]);
 
         return redirect()->route('cart.index')->with('success', '✅ Item added to cart!');
