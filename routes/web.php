@@ -27,3 +27,8 @@ Route::prefix('contact')->group(function () {
     Route::get('/', [ContactController::class, 'index'])->name('contact.index');
     Route::post('/', [ContactController::class, 'store'])->name('contact.store');
 });
+
+//Front page
+use App\Http\Controllers\HomeController;
+
+Route::get('/', [HomeController::class, 'index'])->name('front');

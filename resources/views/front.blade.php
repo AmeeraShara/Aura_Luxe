@@ -141,26 +141,27 @@ header.scrolled {
   <div class="container">
     <h3 class="text-center fw-bold mb-4">NEW ARRIVALS</h3>
     <div class="row g-3">
-      @foreach([
-        ['image'=>'product1.jpg','title'=>'Elegant Evening Dress','price'=>'LKR 12,800'],
-        ['image'=>'product2.jpg','title'=>'Elegant Evening Dress','price'=>'LKR 12,800'],
-        ['image'=>'product3.jpg','title'=>'Elegant Evening Dress','price'=>'LKR 12,800'],
-        ['image'=>'product4.jpg','title'=>'Elegant Evening Dress','price'=>'LKR 12,800'],
-      ] as $p)
-      <div class="col-6 col-md-3">
-        <div class="product-card reveal">
-          <img src="{{ asset('images/'.$p['image']) }}" alt="{{ $p['title'] }}" class="img-fluid">
-          <div class="product-overlay">
-            <button class="icon-btn"><i class="fa fa-heart"></i></button>
-            <button class="icon-btn"><i class="fa fa-eye"></i></button>
-          </div>
-          <div class="product-info text-center p-2">
-            <div class="small text-muted">{{ $p['title'] }}</div>
-            <div class="fw-bold">{{ $p['price'] }}</div>
+      @forelse($products as $product)
+        <div class="col-6 col-md-3">
+          <div class="product-card reveal">
+            <img src="{{ asset($product->first_image) }}" 
+                 alt="{{ $product->name }}" 
+                 class="img-fluid">
+
+            <div class="product-overlay">
+              <button class="icon-btn"><i class="fa fa-heart"></i></button>
+              <button class="icon-btn"><i class="fa fa-eye"></i></button>
+            </div>
+
+            <div class="product-info text-center p-2">
+              <div class="small text-muted">{{ $product->name }}</div>
+              <div class="fw-bold">LKR {{ number_format($product->price, 2) }}</div>
+            </div>
           </div>
         </div>
-      </div>
-      @endforeach
+      @empty
+        <p class="text-center">No products found.</p>
+      @endforelse
     </div>
   </div>
 </section>
@@ -226,3 +227,8 @@ header.scrolled {
 })();
 </script>
 @endsection
+
+
+
+
+
