@@ -81,6 +81,7 @@
             <li class="nav-item"><a class="nav-link text-dark" href="#">SALE</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="#">ACCESSORIES</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="#">COLLECTIONS</a></li>
+           
           </ul>
         </div>
       </div>
@@ -129,7 +130,7 @@
           <div class="col-md-4">
             <h5 class="fw-bold mb-3">CUSTOMER SERVICE</h5>
             <ul class="list-unstyled small">
-              <li><a href="#" class="text-secondary text-decoration-none">Contact Us</a></li>
+              <li><a href="{{ route('contact.index') }}" class="text-secondary text-decoration-none">Contact Us</a></li>
               <li><a href="#" class="text-secondary text-decoration-none">Shipping & Returns</a></li>
               <li><a href="#" class="text-secondary text-decoration-none">Size Guide</a></li>
               <li><a href="#" class="text-secondary text-decoration-none">FAQ</a></li>
@@ -169,7 +170,7 @@
 
   </footer>
 
-    <!-- Message Icon (as shown in the image) -->
+  <!-- Message Icon -->
   <div class="chat-icon">
     <i class="fas fa-comment"></i>
   </div>
@@ -177,5 +178,4 @@
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
