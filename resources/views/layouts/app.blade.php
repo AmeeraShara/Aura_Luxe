@@ -70,22 +70,25 @@
     </div>
 
     <!-- Navigation Menu -->
-    <nav class="border-top">
-      <div class="container">
-        <div class="collapse d-md-block" id="mainMenu">
-          <ul class="nav flex-column flex-md-row justify-content-center fw-medium py-2 text-center">
-            <li class="nav-item"><a class="nav-link text-dark" href="#">NEW ARRIVALS</a></li>
-            <li class="nav-item"><a class="nav-link text-dark" href="#">MEN</a></li>
-            <li class="nav-item"><a class="nav-link text-dark" href="#">WOMEN</a></li>
-            <li class="nav-item"><a class="nav-link text-dark" href="#">KID'S</a></li>
-            <li class="nav-item"><a class="nav-link text-dark" href="#">SALE</a></li>
-            <li class="nav-item"><a class="nav-link text-dark" href="#">ACCESSORIES</a></li>
-            <li class="nav-item"><a class="nav-link text-dark" href="#">COLLECTIONS</a></li>
-           
-          </ul>
-        </div>
-      </div>
-    </nav>
+<!-- Navigation Menu -->
+<nav class="border-top">
+  <div class="container">
+    <div class="collapse d-md-block" id="mainMenu">
+      <ul class="nav flex-column flex-md-row justify-content-center fw-medium py-2 text-center">
+        <li class="nav-item">
+          <a class="nav-link text-dark" href="{{ route('newarrival.index') }}">NEW ARRIVALS</a>
+        </li>
+        <li class="nav-item"><a class="nav-link text-dark" href="#">MEN</a></li>
+        <li class="nav-item"><a class="nav-link text-dark" href="#">WOMEN</a></li>
+        <li class="nav-item"><a class="nav-link text-dark" href="#">KID'S</a></li>
+        <li class="nav-item"><a class="nav-link text-dark" href="#">SALE</a></li>
+        <li class="nav-item"><a class="nav-link text-dark" href="#">ACCESSORIES</a></li>
+        <li class="nav-item"><a class="nav-link text-dark" href="#">COLLECTIONS</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
   </header>
 
   <!-- Main Content -->

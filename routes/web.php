@@ -30,5 +30,12 @@ Route::prefix('contact')->group(function () {
 
 //Front page
 use App\Http\Controllers\HomeController;
-
 Route::get('/', [HomeController::class, 'index'])->name('front');
+
+
+use App\Http\Controllers\NewArrivalController;
+
+Route::prefix('newarrival')->group(function () {
+    Route::get('/', [NewArrivalController::class, 'index'])->name('newarrival.index');
+    Route::get('/show/{id}', [NewArrivalController::class, 'show'])->name('newarrival.show');
+});
