@@ -23,17 +23,17 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       z-index: 1000;
       cursor: pointer;
       transition: all 0.3s ease;
     }
-    
+
     .chat-icon:hover {
       transform: scale(1.05);
       background-color: #333;
     }
-    
+
     .chat-icon i {
       font-size: 24px;
     }
@@ -70,24 +70,24 @@
     </div>
 
     <!-- Navigation Menu -->
-<!-- Navigation Menu -->
-<nav class="border-top">
-  <div class="container">
-    <div class="collapse d-md-block" id="mainMenu">
-      <ul class="nav flex-column flex-md-row justify-content-center fw-medium py-2 text-center">
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="{{ route('newarrival.index') }}">NEW ARRIVALS</a>
-        </li>
-<li class="nav-item"><a class="nav-link text-dark" href="{{ route('men.index') }}">MEN</a></li>
-        <li class="nav-item"><a class="nav-link text-dark" href="#">WOMEN</a></li>
-        <li class="nav-item"><a class="nav-link text-dark" href="#">KID'S</a></li>
-        <li class="nav-item"><a class="nav-link text-dark" href="#">SALE</a></li>
-        <li class="nav-item"><a class="nav-link text-dark" href="#">ACCESSORIES</a></li>
-        <li class="nav-item"><a class="nav-link text-dark" href="#">COLLECTIONS</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>
+    <!-- Navigation Menu -->
+    <nav class="border-top">
+      <div class="container">
+        <div class="collapse d-md-block" id="mainMenu">
+          <ul class="nav flex-column flex-md-row justify-content-center fw-medium py-2 text-center">
+            <li class="nav-item">
+              <a class="nav-link text-dark" href="{{ route('newarrival.index') }}">NEW ARRIVALS</a>
+            </li>
+            <li class="nav-item"><a class="nav-link text-dark" href="{{ route('men.index') }}">MEN</a></li>
+            <li class="nav-item"><a class="nav-link text-dark" href="{{ route('women.index') }}">WOMEN</a></li>
+            <li class="nav-item"><a class="nav-link text-dark" href="#">KID'S</a></li>
+            <li class="nav-item"><a class="nav-link text-dark" href="#">SALE</a></li>
+            <li class="nav-item"><a class="nav-link text-dark" href="#">ACCESSORIES</a></li>
+            <li class="nav-item"><a class="nav-link text-dark" href="#">COLLECTIONS</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
   </header>
 
@@ -184,4 +184,5 @@
   @stack('scripts')
 
 </body>
+
 </html>

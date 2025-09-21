@@ -7,6 +7,7 @@ use App\Http\Controllers\Contact\ContactController;
 use App\Http\Controllers\NewArrivalController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenController;
+use App\Http\Controllers\WomenController;
 
 Route::get('/', function () {
     return view('front');
@@ -44,3 +45,7 @@ Route::prefix('newarrival')->group(function () {
 //Men page
 Route::get('/men', [MenController::class, 'index'])->name('men.index');
 Route::get('/men/{id}', [MenController::class, 'show'])->name('men.show');
+
+//Women page
+Route::get('/women', [WomenController::class, 'index'])->name('women.index');
+Route::get('/women/{id}', [WomenController::class, 'show'])->name('women.show');

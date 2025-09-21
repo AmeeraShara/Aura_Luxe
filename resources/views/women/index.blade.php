@@ -2,7 +2,6 @@
 
 @section('content')
 <style>
-    /* Filter Bar */
     .filter-bar {
         background-color: #fff;
         border: 1px solid #ddd;
@@ -60,33 +59,18 @@
         border: 2px solid #000;
     }
 
-    .btn-apply {
-        background-color: #ccc;
-        border: none;
-        padding: 6px 14px;
-        font-size: 0.8rem;
-        border-radius: 4px;
-        color: #000;
-    }
-
     .hidden-radio {
         display: none;
     }
 
-    .product-card {
-        width: 160px;
-        margin: 0;
-        transition: transform 0.3s ease;
-    }
-
     .card-img-top {
-        height: 250px;
-        object-fit: cover;
+        height: 180px;
+        object-fit: contain;
     }
 
-    .card-body .btn {
-        margin: 4px 2px;
-        font-size: 0.65rem;
+    .product-card {
+        width: 200px;
+        transition: transform 0.3s ease;
     }
 
     .product-card:hover {
@@ -101,27 +85,20 @@
 
 <div class="container-fluid py-4">
 
-    <h2 class="fw-bold mb-4">Men’s Collection</h2>
+    <h2 class="fw-bold mb-4">Women’s Collection</h2>
 
     <!-- FILTER BAR -->
-    <form method="GET" action="{{ route('men.index') }}" id="filter-form">
+    <form method="GET" action="{{ route('women.index') }}" id="filter-form">
         <div class="filter-bar">
 
-            <!-- Filter Icon -->
-            <div class="filter-icon">
-                <span>🔽 Filter</span>
-            </div>
+            <div class="filter-icon"><span>🔽 Filter</span></div>
 
             <!-- Sizes -->
             <div class="filter-section">
                 <span>Size:</span>
-                @foreach(['XS', 'S', 'M', 'L', 'XL' ,'XXL' , 'XXXL'] as $size)
+                @foreach(['XS','S','M','L','XL','XXL','XXXL'] as $size)
                 <label>
-                    <input
-                        type="radio"
-                        name="size"
-                        value="{{ $size }}"
-                        class="hidden-radio filter-input"
+                    <input type="radio" name="size" value="{{ $size }}" class="hidden-radio filter-input"
                         {{ request('size') === $size ? 'checked' : '' }}>
                     <span class="size-button {{ request('size') === $size ? 'active' : '' }}">{{ $size }}</span>
                 </label>
@@ -133,21 +110,16 @@
                 <span>Color:</span>
                 @foreach($availableColors as $color)
                 <label>
-                    <input
-                        type="radio"
-                        name="color"
-                        value="{{ $color }}"
-                        class="hidden-radio filter-input"
+                    <input type="radio" name="color" value="{{ $color }}" class="hidden-radio filter-input"
                         {{ request('color') === $color ? 'checked' : '' }}>
                     <span class="color-box" style="<?php echo 'background-color:' . $color; ?>;" data-color="<?php echo $color; ?>"></span>
-
                 </label>
                 @endforeach
             </div>
 
             <!-- Reset Button -->
             <div class="ms-auto">
-                <a href="{{ route('men.index') }}" class="btn btn-sm btn-outline-secondary">Reset</a>
+                <a href="{{ route('women.index') }}" class="btn btn-sm btn-outline-secondary">Reset</a>
             </div>
         </div>
     </form>
@@ -157,13 +129,9 @@
         @forelse($products as $product)
         <div class="col-md-4 mb-4">
             <div class="card h-100 product-card">
-                @php
-                $firstImagePath = optional($product->images_collection->first())->path;
-                @endphp
-                <img
-                    src="{{ $firstImagePath ? asset($firstImagePath) : asset('images/no-image.png') }}"
-                    alt="{{ $product->name }}"
-                    class="card-img-top">
+                @php $firstImagePath = optional($product->images_collection->first())->path; @endphp
+                <img src="{{ $firstImagePath ? asset($firstImagePath) : asset('images/no-image.png') }}"
+                    alt="{{ $product->name }}" class="card-img-top">
                 <div class="card-body text-center">
                     <h5 class="card-title">{{ $product->name }}</h5>
                     <p class="card-text">LKR {{ number_format($product->price, 2) }}</p>
@@ -173,23 +141,20 @@
             </div>
         </div>
         @empty
-        <p>No men’s products found.</p>
+        <p>No women’s products found.</p>
         @endforelse
     </div>
 
-    <!-- PAGINATION -->
     <div class="d-flex justify-content-center">
         {{ $products->withQueryString()->links() }}
     </div>
 </div>
 
-<!-- Auto-submit script -->
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const filterInputs = document.querySelectorAll('.filter-input');
         const filterForm = document.getElementById('filter-form');
-
         filterInputs.forEach(input => {
             input.addEventListener('change', () => {
                 filterForm.submit();
