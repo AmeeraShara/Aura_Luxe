@@ -69,11 +69,9 @@
         color: #000;
     }
 
-    /* Hide native radios */
     .hidden-radio {
         display: none;
     }
-
 
     .product-card {
         width: 160px;
@@ -94,13 +92,19 @@
     .product-card:hover {
         transform: scale(1.03);
     }
-</style>
 
+    .card-body .btn {
+        margin: 5px 3px;
+        font-size: 0.7rem;
+    }
+</style>
 
 <div class="container-fluid py-4">
 
+    <h2 class="fw-bold mb-4">Men’s Collection</h2>
+
     <!-- FILTER BAR -->
-    <form method="GET" action="{{ route('newarrival.index') }}" id="filter-form">
+    <form method="GET" action="{{ route('men.index') }}" id="filter-form">
         <div class="filter-bar">
 
             <!-- Filter Icon -->
@@ -143,7 +147,7 @@
 
             <!-- Reset Button -->
             <div class="ms-auto">
-                <a href="{{ route('newarrival.index') }}" class="btn btn-sm btn-outline-secondary">Reset</a>
+                <a href="{{ route('men.index') }}" class="btn btn-sm btn-outline-secondary">Reset</a>
             </div>
         </div>
     </form>
@@ -151,7 +155,7 @@
     <!-- PRODUCT GRID -->
     <div class="row mt-4 product-grid">
         @forelse($products as $product)
-        <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 d-flex justify-content-center">
+        <div class="col-md-4 mb-4">
             <div class="card h-100 product-card">
                 @php
                 $firstImagePath = optional($product->images_collection->first())->path;
@@ -164,12 +168,12 @@
                     <h5 class="card-title">{{ $product->name }}</h5>
                     <p class="card-text">LKR {{ number_format($product->price, 2) }}</p>
                     <a href="#" class="btn btn-outline-danger btn-sm">♡</a>
-                    <a href="{{ route('products.show', ['id' => $product->id]) }}" class="btn btn-outline-success btn-sm">🛒</a>
+<a href="{{ route('products.show', ['id' => $product->id]) }}" class="btn btn-outline-success btn-sm">🛒</a>
                 </div>
             </div>
         </div>
         @empty
-        <p>No products found.</p>
+        <p>No men’s products found.</p>
         @endforelse
     </div>
 

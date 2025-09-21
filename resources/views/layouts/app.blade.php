@@ -78,7 +78,7 @@
         <li class="nav-item">
           <a class="nav-link text-dark" href="{{ route('newarrival.index') }}">NEW ARRIVALS</a>
         </li>
-        <li class="nav-item"><a class="nav-link text-dark" href="#">MEN</a></li>
+<li class="nav-item"><a class="nav-link text-dark" href="{{ route('men.index') }}">MEN</a></li>
         <li class="nav-item"><a class="nav-link text-dark" href="#">WOMEN</a></li>
         <li class="nav-item"><a class="nav-link text-dark" href="#">KID'S</a></li>
         <li class="nav-item"><a class="nav-link text-dark" href="#">SALE</a></li>

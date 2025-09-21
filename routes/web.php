@@ -4,7 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Contact\ContactController;
- 
+use App\Http\Controllers\NewArrivalController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MenController;
+
 Route::get('/', function () {
     return view('front');
 });
@@ -29,13 +32,15 @@ Route::prefix('contact')->group(function () {
 });
 
 //Front page
-use App\Http\Controllers\HomeController;
 Route::get('/', [HomeController::class, 'index'])->name('front');
 
 
-use App\Http\Controllers\NewArrivalController;
-
+//New Arrival Page
 Route::prefix('newarrival')->group(function () {
     Route::get('/', [NewArrivalController::class, 'index'])->name('newarrival.index');
     Route::get('/show/{id}', [NewArrivalController::class, 'show'])->name('newarrival.show');
 });
+
+//Men page
+Route::get('/men', [MenController::class, 'index'])->name('men.index');
+Route::get('/men/{id}', [MenController::class, 'show'])->name('men.show');
