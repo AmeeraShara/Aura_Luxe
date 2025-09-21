@@ -67,7 +67,7 @@
                     <div>
                         <label class="block font-medium">Size Options</label>
                         <div class="flex gap-4 mt-2">
-                            @foreach (['S','M','L','XL','XXL','XXXL'] as $size)
+                            @foreach (['XS','S','M','L','XL','XXL','XXXL'] as $size)
                             <label class="flex items-center gap-1">
                                 <input type="checkbox" name="sizes[]" value="{{ $size }}">
                                 {{ $size }}
