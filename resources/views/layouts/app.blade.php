@@ -80,7 +80,7 @@
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('men.index') }}">MEN</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('women.index') }}">WOMEN</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('kids.index') }}">KID'S</a></li>
-            <li class="nav-item"><a class="nav-link text-dark" href="#">SALE</a></li>
+            <li class="nav-item"><a class="nav-link text-dark" href="{{ route('sale.index') }}">SALE</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="#">ACCESSORIES</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="#">COLLECTIONS</a></li>
           </ul>
