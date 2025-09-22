@@ -70,7 +70,6 @@
     </div>
 
     <!-- Navigation Menu -->
-    <!-- Navigation Menu -->
     <nav class="border-top">
       <div class="container">
         <div class="collapse d-md-block" id="mainMenu">
@@ -80,7 +79,7 @@
             </li>
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('men.index') }}">MEN</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('women.index') }}">WOMEN</a></li>
-            <li class="nav-item"><a class="nav-link text-dark" href="#">KID'S</a></li>
+            <li class="nav-item"><a class="nav-link text-dark" href="{{ route('kids.index') }}">KID'S</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="#">SALE</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="#">ACCESSORIES</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="#">COLLECTIONS</a></li>

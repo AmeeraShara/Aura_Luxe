@@ -8,6 +8,8 @@ use App\Http\Controllers\NewArrivalController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenController;
 use App\Http\Controllers\WomenController;
+use App\Http\Controllers\KidsController;
+
 
 Route::get('/', function () {
     return view('front');
@@ -49,3 +51,6 @@ Route::get('/men/{id}', [MenController::class, 'show'])->name('men.show');
 //Women page
 Route::get('/women', [WomenController::class, 'index'])->name('women.index');
 Route::get('/women/{id}', [WomenController::class, 'show'])->name('women.show');
+
+//Kids Page
+Route::get('/kids', [KidsController::class, 'index'])->name('kids.index');
