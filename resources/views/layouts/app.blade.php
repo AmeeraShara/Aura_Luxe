@@ -66,6 +66,7 @@
         <a href="#" class="text-dark"><i class="fa fa-search"></i></a>
         <a href="#" class="text-dark"><i class="fa fa-user"></i></a>
         <a href="#" class="text-dark"><i class="fa fa-shopping-cart"></i></a>
+        
       </div>
     </div>
 

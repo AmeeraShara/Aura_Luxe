@@ -96,7 +96,7 @@
 </style>
 
 <div class="container py-4">
-    <h2 class="fw-bold mb-4 text-center">Kids Collection</h2>
+    <h2 class="fw-bold mb-4 ">Kids Collection</h2>
 
  
 

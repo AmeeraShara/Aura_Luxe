@@ -2,69 +2,22 @@
 
 @section('content')
 <div class="container py-5">
-    <h2 class="fw-bold mb-4 text-center">Our Collections</h2>
+    <h2 class="fw-bold mb-4 ">Our Collections</h2>
 
     <div class="row g-4 justify-content-center">
 
-        <!-- Men -->
-        <div class="col-md-4">
-            <a href="{{ route('men.index') }}" class="text-decoration-none">
-                <div class="card collection-card h-100 shadow-sm">
-                    <img src="{{ asset('images/collections/men.jpg') }}" class="card-img-top" alt="Men">
-                    <div class="card-body text-center">
-                        <h5 class="card-title fw-bold">Men</h5>
+        @foreach($collections as $collection)
+            <div class="col-md-4">
+                <a href="{{ route($collection['route']) }}" class="text-decoration-none">
+                    <div class="card collection-card h-100 shadow-sm">
+                        <img src="{{ $collection['image'] }}" class="card-img-top" alt="{{ $collection['name'] }}">
+                        <div class="card-body text-center">
+                            <h5 class="card-title fw-bold">{{ $collection['name'] }}</h5>
+                        </div>
                     </div>
-                </div>
-            </a>
-        </div>
-
-        <!-- Women -->
-        <div class="col-md-4">
-            <a href="{{ route('women.index') }}" class="text-decoration-none">
-                <div class="card collection-card h-100 shadow-sm">
-                    <img src="{{ asset('images/collections/women.jpg') }}" class="card-img-top" alt="Women">
-                    <div class="card-body text-center">
-                        <h5 class="card-title fw-bold">Women</h5>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <!-- Kids -->
-        <div class="col-md-4">
-            <a href="{{ route('kids.index') }}" class="text-decoration-none">
-                <div class="card collection-card h-100 shadow-sm">
-                    <img src="{{ asset('images/collections/kids.jpg') }}" class="card-img-top" alt="Kids">
-                    <div class="card-body text-center">
-                        <h5 class="card-title fw-bold">Kids</h5>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <!-- Sale -->
-        <div class="col-md-4">
-            <a href="{{ route('sale.index') }}" class="text-decoration-none">
-                <div class="card collection-card h-100 shadow-sm">
-                    <img src="{{ asset('images/collections/sale.jpg') }}" class="card-img-top" alt="Sale">
-                    <div class="card-body text-center">
-                        <h5 class="card-title fw-bold">Sale</h5>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <!-- Accessories -->
-        <div class="col-md-4">
-            <a href="{{ route('accessories.index') }}" class="text-decoration-none">
-                <div class="card collection-card h-100 shadow-sm">
-                    <img src="{{ asset('images/collections/accessories.jpg') }}" class="card-img-top" alt="Accessories">
-                    <div class="card-body text-center">
-                        <h5 class="card-title fw-bold">Accessories</h5>
-                    </div>
-                </div>
-            </a>
-        </div>
+                </a>
+            </div>
+        @endforeach
 
     </div>
 </div>
@@ -78,7 +31,7 @@
     }
 
     .collection-card img {
-        height: 250px;
+        height: 550px;
         object-fit: cover;
     }
 

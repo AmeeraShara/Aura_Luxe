@@ -85,7 +85,7 @@
 </style>
 
 <div class="container py-4">
-    <h2 class="fw-bold mb-4 text-center">🔥 Sale Collection</h2>
+    <h2 class="fw-bold mb-4"> Sale Collection</h2>
 
     <!-- FILTER BAR -->
     <form method="GET" action="{{ route('sale.index') }}" id="filter-form">
