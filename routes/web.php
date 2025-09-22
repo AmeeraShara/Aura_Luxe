@@ -1,16 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Cart\CartController;
 use App\Http\Controllers\Contact\ContactController;
-use App\Http\Controllers\NewArrivalController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\MenController;
-use App\Http\Controllers\WomenController;
-use App\Http\Controllers\KidsController;
+use App\Http\Controllers\NewArrival\NewArrivalController;
+use App\Http\Controllers\Home\HomeController;
+use App\Http\Controllers\Men\MenController;
+use App\Http\Controllers\Women\WomenController;
+use App\Http\Controllers\Kids\KidsController;
 use App\Http\Controllers\Sale\SaleController;
 use App\Http\Controllers\Accessories\AccessoriesController;
+use App\Http\Controllers\Collections\CollectionController;
 
 
 Route::get('/', function () {
@@ -62,3 +63,6 @@ Route::get('/sale', [SaleController::class, 'index'])->name('sale.index');
 
 //Accessories
 Route::get('/accessories', [AccessoriesController::class, 'index'])->name('accessories.index');
+
+//Collections Page 
+Route::get('/collections', [CollectionController::class, 'index'])->name('collections.index');

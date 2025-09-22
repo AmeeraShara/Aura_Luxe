@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Kids;
 
-use App\Models\Product;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Product;
 
 class KidsController extends Controller
 {
@@ -25,6 +26,7 @@ class KidsController extends Controller
         }
 
         $products = $query->paginate(9);
+        
 
         // Available colors dynamically
         $availableColors = Product::where('category', 'Kids')

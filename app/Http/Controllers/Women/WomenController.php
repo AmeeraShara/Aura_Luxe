@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Women;
 
+use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 
-class MenController extends Controller
+class WomenController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::where('category', 'Men'); // ✅ Only men's products
+        $query = Product::where('category', 'Women'); // ✅ Only women’s products
 
         // Size filter
         if ($request->filled('size')) {
@@ -31,7 +32,7 @@ class MenController extends Controller
         }
 
         // Available colors (based on size filter if applied)
-        $colorQuery = Product::where('category', 'Men');
+        $colorQuery = Product::where('category', 'Women');
         if ($request->filled('size')) {
             $colorQuery->where('sizes', 'like', "%{$request->size}%");
         }
@@ -42,12 +43,12 @@ class MenController extends Controller
             ->values()
             ->all();
 
-        return view('men.index', compact('products', 'availableColors'));
+        return view('women.index', compact('products', 'availableColors'));
     }
 
     public function show($id)
     {
-        $product = Product::where('category', 'Men')->findOrFail($id);
+        $product = Product::where('category', 'Women')->findOrFail($id);
 
         $images = ProductImage::where('product_id', $id)->get();
 
@@ -56,6 +57,6 @@ class MenController extends Controller
             ->take(4)
             ->get();
 
-        return view('men.show', compact('product', 'images', 'relatedProducts'));
+        return view('women.show', compact('product', 'images', 'relatedProducts'));
     }
 }
