@@ -10,6 +10,8 @@ use App\Http\Controllers\MenController;
 use App\Http\Controllers\WomenController;
 use App\Http\Controllers\KidsController;
 use App\Http\Controllers\Sale\SaleController;
+use App\Http\Controllers\Accessories\AccessoriesController;
+
 
 Route::get('/', function () {
     return view('front');
@@ -57,3 +59,6 @@ Route::get('/kids', [KidsController::class, 'index'])->name('kids.index');
 
 //Sale
 Route::get('/sale', [SaleController::class, 'index'])->name('sale.index');
+
+//Accessories
+Route::get('/accessories', [AccessoriesController::class, 'index'])->name('accessories.index');

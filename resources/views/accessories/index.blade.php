@@ -96,12 +96,10 @@
 </style>
 
 <div class="container py-4">
-    <h2 class="fw-bold mb-4 text-center">Kids Collection</h2>
-
- 
+    <h2 class="fw-bold mb-4 text-center"> Accessories Collection</h2>
 
     <!-- FILTER BAR -->
-    <form method="GET" action="{{ route('kids.index') }}" id="filter-form">
+    <form method="GET" action="{{ route('accessories.index') }}" id="filter-form">
         <div class="filter-bar">
 
             <div class="filter-icon"><span>🔽 Filter</span></div>
@@ -110,11 +108,11 @@
             <div class="filter-section">
                 <span>Size:</span>
                 @foreach(['XS','S','M','L','XL','XXL','XXXL'] as $size)
-                <label>
-                    <input type="radio" name="size" value="{{ $size }}" class="hidden-radio filter-input"
-                        {{ request('size') === $size ? 'checked' : '' }}>
-                    <span class="size-button {{ request('size') === $size ? 'active' : '' }}">{{ $size }}</span>
-                </label>
+                    <label>
+                        <input type="radio" name="size" value="{{ $size }}" class="hidden-radio filter-input"
+                            {{ request('size') === $size ? 'checked' : '' }}>
+                        <span class="size-button {{ request('size') === $size ? 'active' : '' }}">{{ $size }}</span>
+                    </label>
                 @endforeach
             </div>
 
@@ -122,17 +120,17 @@
             <div class="filter-section">
                 <span>Color:</span>
                 @foreach($availableColors as $color)
-                <label>
-                    <input type="radio" name="color" value="{{ $color }}" class="hidden-radio filter-input"
-                        {{ request('color') === $color ? 'checked' : '' }}>
+                    <label>
+                        <input type="radio" name="color" value="{{ $color }}" class="hidden-radio filter-input"
+                            {{ request('color') === $color ? 'checked' : '' }}>
                     <span class="color-box" style="<?php echo 'background-color:' . $color; ?>;" data-color="<?php echo $color; ?>"></span>
-                </label>
+                    </label>
                 @endforeach
             </div>
 
-            <!-- Reset Button -->
+            <!-- Reset -->
             <div class="ms-auto">
-                <a href="{{ route('women.index') }}" class="btn btn-sm btn-outline-secondary">Reset</a>
+                <a href="{{ route('accessories.index') }}" class="btn btn-sm btn-outline-secondary">Reset</a>
             </div>
         </div>
     </form>
@@ -145,21 +143,22 @@
                     @php
                         $firstImagePath = optional($product->images_collection->first())->path;
                     @endphp
-                    <img 
-                        src="{{ $firstImagePath ? asset($firstImagePath) : asset('images/no-image.png') }}" 
-                        alt="{{ $product->name }}" 
-                        class="card-img-top"
-                    >
+                    <img src="{{ $firstImagePath ? asset($firstImagePath) : asset('images/no-image.png') }}"
+                         alt="{{ $product->name }}"
+                         class="card-img-top">
+
                     <div class="card-body text-center">
                         <h5 class="card-title">{{ $product->name }}</h5>
-                        <p class="card-text">LKR {{ number_format($product->price, 2) }}</p>
+                        <p class="card-text fw-bold">
+                            LKR {{ number_format($product->price, 2) }}
+                        </p>
                         <a href="#" class="btn btn-outline-danger btn-sm">♡</a>
                         <a href="{{ route('products.show', $product->id) }}" class="btn btn-outline-success btn-sm">🛒</a>
                     </div>
                 </div>
             </div>
         @empty
-            <p>No products found.</p>
+            <p>No accessories found.</p>
         @endforelse
     </div>
 
@@ -168,4 +167,17 @@
         {{ $products->withQueryString()->links() }}
     </div>
 </div>
+
+<!-- Auto-submit filters -->
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.filter-input').forEach(input => {
+            input.addEventListener('change', () => {
+                document.getElementById('filter-form').submit();
+            });
+        });
+    });
+</script>
+@endpush
 @endsection
