@@ -11,9 +11,9 @@ class AccessoriesController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::query()
-            ->where('category', 'Accessories'); // ✅ Only accessories products
 
+        $query = Product::where('category', 'Accessories')
+            ->orderBy('created_at', 'desc');
         // Filter by size
         if ($request->filled('size')) {
             $query->where('sizes', 'like', "%{$request->size}%");

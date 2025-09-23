@@ -2,7 +2,6 @@
 
 @section('content')
 <style>
-    /* Same styles as Men/Women/Kids */
     .filter-bar {
         background-color: #fff;
         border: 1px solid #ddd;
@@ -84,8 +83,8 @@
     }
 </style>
 
-<div class="container py-4">
-    <h2 class="fw-bold mb-4"> Sale Collection</h2>
+<div class="container-fluid py-4">
+    <h2 class="fw-bold mb-4">Sale Collection</h2>
 
     <!-- FILTER BAR -->
     <form method="GET" action="{{ route('sale.index') }}" id="filter-form">
@@ -126,7 +125,7 @@
     <!-- PRODUCT GRID -->
     <div class="row mt-4 product-grid">
         @forelse($products as $product)
-            <div class="col-md-4 mb-4">
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 d-flex justify-content-center">
                 <div class="card h-100 product-card">
                     @php
                         $firstImagePath = optional($product->images_collection->first())->path;
@@ -155,12 +154,11 @@
     </div>
 </div>
 
-<!-- Auto-submit filters -->
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.filter-input').forEach(input => {
-            input.addEventListener('change', () => {
+            input.addEventListener('change', function () {
                 document.getElementById('filter-form').submit();
             });
         });

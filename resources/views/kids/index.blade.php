@@ -56,25 +56,14 @@
     }
 
     .color-box:hover,
-    input[type="radio"]:checked + .color-box {
+    input[type="radio"]:checked+.color-box {
         border: 2px solid #000;
     }
 
-    .btn-apply {
-        background-color: #ccc;
-        border: none;
-        padding: 6px 14px;
-        font-size: 0.8rem;
-        border-radius: 4px;
-        color: #000;
-    }
-
-    /* Hide native radios */
     .hidden-radio {
         display: none;
     }
 
-    /* Product card styles */
     .card-img-top {
         height: 180px;
         object-fit: contain;
@@ -95,10 +84,8 @@
     }
 </style>
 
-<div class="container py-4">
-    <h2 class="fw-bold mb-4 ">Kids Collection</h2>
-
- 
+<div class="container-fluid py-4">
+    <h2 class="fw-bold mb-4">Kids Collection</h2>
 
     <!-- FILTER BAR -->
     <form method="GET" action="{{ route('kids.index') }}" id="filter-form">
@@ -132,7 +119,7 @@
 
             <!-- Reset Button -->
             <div class="ms-auto">
-                <a href="{{ route('women.index') }}" class="btn btn-sm btn-outline-secondary">Reset</a>
+                <a href="{{ route('kids.index') }}" class="btn btn-sm btn-outline-secondary">Reset</a>
             </div>
         </div>
     </form>
@@ -140,26 +127,26 @@
     <!-- PRODUCT GRID -->
     <div class="row mt-4 product-grid">
         @forelse($products as $product)
-            <div class="col-md-4 mb-4">
-                <div class="card h-100 product-card">
-                    @php
-                        $firstImagePath = optional($product->images_collection->first())->path;
-                    @endphp
-                    <img 
-                        src="{{ $firstImagePath ? asset($firstImagePath) : asset('images/no-image.png') }}" 
-                        alt="{{ $product->name }}" 
-                        class="card-img-top"
-                    >
-                    <div class="card-body text-center">
-                        <h5 class="card-title">{{ $product->name }}</h5>
-                        <p class="card-text">LKR {{ number_format($product->price, 2) }}</p>
-                        <a href="#" class="btn btn-outline-danger btn-sm">♡</a>
-                        <a href="{{ route('products.show', $product->id) }}" class="btn btn-outline-success btn-sm">🛒</a>
-                    </div>
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 d-flex justify-content-center">
+            <div class="card h-100 product-card">
+                @php
+                    $firstImagePath = optional($product->images_collection->first())->path;
+                @endphp
+                <img 
+                    src="{{ $firstImagePath ? asset($firstImagePath) : asset('images/no-image.png') }}" 
+                    alt="{{ $product->name }}" 
+                    class="card-img-top"
+                >
+                <div class="card-body text-center">
+                    <h5 class="card-title">{{ $product->name }}</h5>
+                    <p class="card-text">LKR {{ number_format($product->price, 2) }}</p>
+                    <a href="#" class="btn btn-outline-danger btn-sm">♡</a>
+                    <a href="{{ route('products.show', $product->id) }}" class="btn btn-outline-success btn-sm">🛒</a>
                 </div>
             </div>
+        </div>
         @empty
-            <p>No products found.</p>
+        <p>No kids' products found.</p>
         @endforelse
     </div>
 
@@ -168,4 +155,18 @@
         {{ $products->withQueryString()->links() }}
     </div>
 </div>
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterInputs = document.querySelectorAll('.filter-input');
+        const filterForm = document.getElementById('filter-form');
+        filterInputs.forEach(input => {
+            input.addEventListener('change', () => {
+                filterForm.submit();
+            });
+        });
+    });
+</script>
+@endpush
 @endsection

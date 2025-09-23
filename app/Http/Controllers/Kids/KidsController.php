@@ -12,9 +12,9 @@ class KidsController extends Controller
     public function index(Request $request)
     {
         // Base query for Kids category
-        $query = Product::where('status', 1)
-                        ->where('category', 'Kids'); // Assuming category stored as "Kids"
 
+        $query = Product::where('category', 'Kids')
+            ->orderBy('created_at', 'desc');
         // Size filter
         if ($request->filled('size')) {
             $query->where('sizes', 'LIKE', '%' . $request->size . '%');
@@ -40,10 +40,10 @@ class KidsController extends Controller
         }
 
         $availableColors = $colorQuery->pluck('colors')
-                                      ->flatMap(fn($colors) => array_map('trim', explode(',', $colors)))
-                                      ->unique()
-                                      ->values()
-                                      ->all();
+            ->flatMap(fn($colors) => array_map('trim', explode(',', $colors)))
+            ->unique()
+            ->values()
+            ->all();
 
         return view('kids.index', compact('products', 'availableColors'));
     }
@@ -55,9 +55,9 @@ class KidsController extends Controller
         $images = ProductImage::where('product_id', $id)->get();
 
         $relatedProducts = Product::where('category', 'Kids')
-                                  ->where('id', '!=', $id)
-                                  ->take(4)
-                                  ->get();
+            ->where('id', '!=', $id)
+            ->take(4)
+            ->get();
 
         return view('kids.show', compact('product', 'images', 'relatedProducts'));
     }

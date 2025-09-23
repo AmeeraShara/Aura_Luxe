@@ -2,7 +2,6 @@
 
 @section('content')
 <style>
-    /* Filter Bar */
     .filter-bar {
         background-color: #fff;
         border: 1px solid #ddd;
@@ -60,21 +59,10 @@
         border: 2px solid #000;
     }
 
-    .btn-apply {
-        background-color: #ccc;
-        border: none;
-        padding: 6px 14px;
-        font-size: 0.8rem;
-        border-radius: 4px;
-        color: #000;
-    }
-
-    /* Hide native radios */
     .hidden-radio {
         display: none;
     }
 
-    /* Product card styles */
     .card-img-top {
         height: 180px;
         object-fit: contain;
@@ -95,13 +83,12 @@
     }
 </style>
 
-<div class="container py-4">
-    <h2 class="fw-bold mb-4 "> Accessories Collection</h2>
+<div class="container-fluid py-4">
+    <h2 class="fw-bold mb-4">Accessories Collection</h2>
 
     <!-- FILTER BAR -->
     <form method="GET" action="{{ route('accessories.index') }}" id="filter-form">
         <div class="filter-bar">
-
             <div class="filter-icon"><span>🔽 Filter</span></div>
 
             <!-- Sizes -->
@@ -138,7 +125,7 @@
     <!-- PRODUCT GRID -->
     <div class="row mt-4 product-grid">
         @forelse($products as $product)
-            <div class="col-md-4 mb-4">
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 d-flex justify-content-center">
                 <div class="card h-100 product-card">
                     @php
                         $firstImagePath = optional($product->images_collection->first())->path;

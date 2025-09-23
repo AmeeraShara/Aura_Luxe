@@ -11,7 +11,8 @@ class MenController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::where('category', 'Men'); // ✅ Only men's products
+        $query = Product::where('category', 'Men')
+            ->orderBy('created_at', 'desc');
 
         // Size filter
         if ($request->filled('size')) {

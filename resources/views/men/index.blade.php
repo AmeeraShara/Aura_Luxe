@@ -155,7 +155,7 @@
     <!-- PRODUCT GRID -->
     <div class="row mt-4 product-grid">
         @forelse($products as $product)
-        <div class="col-md-4 mb-4">
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-1 d-flex justify-content-center">
             <div class="card h-100 product-card">
                 @php
                 $firstImagePath = optional($product->images_collection->first())->path;
