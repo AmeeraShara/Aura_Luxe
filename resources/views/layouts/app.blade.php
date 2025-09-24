@@ -88,11 +88,15 @@
               </a>
               <ul class="dropdown-menu" aria-labelledby="menDropdown">
                 <li><a class="dropdown-item" href="{{ route('men.index') }}">All Men</a></li>
-                <li><a class="dropdown-item" href="#">Shirts</a></li>
-                <li><a class="dropdown-item" href="#">T-Shirts</a></li>
-                <li><a class="dropdown-item" href="#">Bottoms</a></li>
-                <li><a class="dropdown-item" href="#">Trousers</a></li>
-                <li><a class="dropdown-item" href="#">Shoes</a></li>
+                @if(isset($subcategories) && count($subcategories))
+                @foreach($subcategories as $sub)
+                <li>
+                  <a class="dropdown-item" href="{{ route('men.index', ['subcategory' => $sub]) }}">
+                    {{ $sub }}
+                  </a>
+                </li>
+                @endforeach
+                @endif
               </ul>
             </li>
 
@@ -103,9 +107,17 @@
               </a>
               <ul class="dropdown-menu" aria-labelledby="womenDropdown">
                 <li><a class="dropdown-item" href="{{ route('women.index') }}">All Women</a></li>
-                <li><a class="dropdown-item" href="#">Dresses</a></li>
-                <li><a class="dropdown-item" href="#">Tops</a></li>
-                <li><a class="dropdown-item" href="#">Shoes</a></li>
+                                @if(isset($subcategories) && count($subcategories))
+
+                @foreach($subcategories as $sub)
+                <li>
+                  <a class="dropdown-item" href="{{ route('women.index', ['subcategory' => $sub]) }}">
+                    {{ $sub }}
+                  </a>
+                </li>
+                @endforeach
+                                @endif
+
               </ul>
             </li>
 
@@ -116,8 +128,17 @@
               </a>
               <ul class="dropdown-menu" aria-labelledby="kidsDropdown">
                 <li><a class="dropdown-item" href="{{ route('kids.index') }}">All Kids</a></li>
-                <li><a class="dropdown-item" href="#">Boys</a></li>
-                <li><a class="dropdown-item" href="#">Girls</a></li>
+                                                @if(isset($subcategories) && count($subcategories))
+
+                @foreach($subcategories as $sub)
+                <li>
+                  <a class="dropdown-item" href="{{ route('kids.index', ['subcategory' => $sub]) }}">
+                    {{ $sub }}
+                  </a>
+                </li>
+                @endforeach
+                                @endif
+
               </ul>
             </li>
 
@@ -133,11 +154,17 @@
               </a>
               <ul class="dropdown-menu" aria-labelledby="accessoriesDropdown">
                 <li><a class="dropdown-item" href="{{ route('accessories.index') }}">All Accessories</a></li>
-                <li><a class="dropdown-item" href="#">Men</a></li>
-                <li><a class="dropdown-item" href="#">Women</a></li>
-                <li><a class="dropdown-item" href="#">Bags</a></li>
-                <li><a class="dropdown-item" href="#">Jewelry</a></li>
-                <li><a class="dropdown-item" href="#">Watches</a></li>
+                                                @if(isset($subcategories) && count($subcategories))
+
+                @foreach($subcategories as $sub)
+                <li>
+                  <a class="dropdown-item" href="{{ route('accessories.index', ['subcategory' => $sub]) }}">
+                    {{ $sub }}
+                  </a>
+                </li>
+                @endforeach
+                                @endif
+
               </ul>
             </li>
 

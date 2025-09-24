@@ -10,54 +10,52 @@ use Illuminate\Http\Request;
 class MenController extends Controller
 {
     public function index(Request $request)
-    {
-        $query = Product::where('category', 'Men')
-            ->orderBy('created_at', 'desc');
+{
+    $query = Product::where('category', 'Men')
+        ->orderBy('created_at', 'desc');
 
-        // Size filter
-        if ($request->filled('size')) {
-            $query->where('sizes', 'like', "%{$request->size}%");
-        }
-
-        // Color filter
-        if ($request->filled('color')) {
-            $query->where('colors', 'like', "%{$request->color}%");
-        }
-
-        // Paginated products
-        $products = $query->paginate(12);
-
-        // Attach product images
-        foreach ($products as $product) {
-            $product->images_collection = ProductImage::where('product_id', $product->id)->get();
-        }
-
-        // Available colors (based on size filter if applied)
-        $colorQuery = Product::where('category', 'Men');
-        if ($request->filled('size')) {
-            $colorQuery->where('sizes', 'like', "%{$request->size}%");
-        }
-
-        $availableColors = $colorQuery->pluck('colors')
-            ->flatMap(fn($colors) => array_map('trim', explode(',', $colors)))
-            ->unique()
-            ->values()
-            ->all();
-
-        return view('men.index', compact('products', 'availableColors'));
+    // Size filter
+    if ($request->filled('size')) {
+        $query->where('sizes', 'like', "%{$request->size}%");
     }
 
-    public function show($id)
-    {
-        $product = Product::where('category', 'Men')->findOrFail($id);
-
-        $images = ProductImage::where('product_id', $id)->get();
-
-        $relatedProducts = Product::where('category', $product->category)
-            ->where('id', '!=', $id)
-            ->take(4)
-            ->get();
-
-        return view('men.show', compact('product', 'images', 'relatedProducts'));
+    // Color filter
+    if ($request->filled('color')) {
+        $query->where('colors', 'like', "%{$request->color}%");
     }
+
+    // Subcategory filter
+    if ($request->filled('subcategory')) {
+        $query->where('subcategory', $request->subcategory);
+    }
+
+    // Paginated products
+    $products = $query->paginate(12);
+
+    // Attach product images
+    foreach ($products as $product) {
+        $product->images_collection = ProductImage::where('product_id', $product->id)->get();
+    }
+
+    // Available colors
+    $colorQuery = Product::where('category', 'Men');
+    if ($request->filled('size')) {
+        $colorQuery->where('sizes', 'like', "%{$request->size}%");
+    }
+
+    $availableColors = $colorQuery->pluck('colors')
+        ->flatMap(fn($colors) => array_map('trim', explode(',', $colors)))
+        ->unique()
+        ->values()
+        ->all();
+
+    // ✅ Distinct subcategories for dropdown
+    $subcategories = Product::where('category', 'Men')
+        ->whereNotNull('subcategory')
+        ->distinct()
+        ->pluck('subcategory');
+
+    return view('men.index', compact('products', 'availableColors', 'subcategories'));
+}
+
 }

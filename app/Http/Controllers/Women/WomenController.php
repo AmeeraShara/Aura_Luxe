@@ -9,55 +9,53 @@ use Illuminate\Http\Request;
 
 class WomenController extends Controller
 {
-    public function index(Request $request)
-    {
-        $query = Product::where('category', 'Women')
-            ->orderBy('created_at', 'desc');
-            
-        // Size filter
-        if ($request->filled('size')) {
-            $query->where('sizes', 'like', "%{$request->size}%");
-        }
+   public function index(Request $request)
+{
+    $query = Product::where('category', 'Women')
+        ->orderBy('created_at', 'desc');
 
-        // Color filter
-        if ($request->filled('color')) {
-            $query->where('colors', 'like', "%{$request->color}%");
-        }
-
-        // Paginated products
-        $products = $query->paginate(12);
-
-        // Attach product images
-        foreach ($products as $product) {
-            $product->images_collection = ProductImage::where('product_id', $product->id)->get();
-        }
-
-        // Available colors (based on size filter if applied)
-        $colorQuery = Product::where('category', 'Women');
-        if ($request->filled('size')) {
-            $colorQuery->where('sizes', 'like', "%{$request->size}%");
-        }
-
-        $availableColors = $colorQuery->pluck('colors')
-            ->flatMap(fn($colors) => array_map('trim', explode(',', $colors)))
-            ->unique()
-            ->values()
-            ->all();
-
-        return view('women.index', compact('products', 'availableColors'));
+    // Size filter
+    if ($request->filled('size')) {
+        $query->where('sizes', 'like', "%{$request->size}%");
     }
 
-    public function show($id)
-    {
-        $product = Product::where('category', 'Women')->findOrFail($id);
-
-        $images = ProductImage::where('product_id', $id)->get();
-
-        $relatedProducts = Product::where('category', $product->category)
-            ->where('id', '!=', $id)
-            ->take(4)
-            ->get();
-
-        return view('women.show', compact('product', 'images', 'relatedProducts'));
+    // Color filter
+    if ($request->filled('color')) {
+        $query->where('colors', 'like', "%{$request->color}%");
     }
+
+    // Subcategory filter
+    if ($request->filled('subcategory')) {
+        $query->where('subcategory', $request->subcategory);
+    }
+
+    // Paginated products
+    $products = $query->paginate(12);
+
+    // Attach product images
+    foreach ($products as $product) {
+        $product->images_collection = ProductImage::where('product_id', $product->id)->get();
+    }
+
+    // Available colors dynamically
+    $colorQuery = Product::where('category', 'Women');
+    if ($request->filled('size')) {
+        $colorQuery->where('sizes', 'like', "%{$request->size}%");
+    }
+
+    $availableColors = $colorQuery->pluck('colors')
+        ->flatMap(fn($colors) => array_map('trim', explode(',', $colors)))
+        ->unique()
+        ->values()
+        ->all();
+
+    // ✅ Fetch distinct subcategories for Women
+    $subcategories = Product::where('category', 'Women')
+        ->whereNotNull('subcategory')
+        ->distinct()
+        ->pluck('subcategory');
+
+    return view('women.index', compact('products', 'availableColors', 'subcategories'));
+}
+
 }
