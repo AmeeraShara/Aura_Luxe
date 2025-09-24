@@ -50,10 +50,12 @@ class MenController extends Controller
         ->all();
 
     // ✅ Distinct subcategories for dropdown
-    $subcategories = Product::where('category', 'Men')
-        ->whereNotNull('subcategory')
-        ->distinct()
-        ->pluck('subcategory');
+$subcategories = [
+    'Men' => ['Shirts', 'T-Shirts', 'Bottoms', 'Trousers', 'Shoes'],
+    'Women' => ['Dresses', 'Tops', 'Shoes'],
+    'Kids' => ['Boys', 'Girls'],
+    'Accessories' => ['Men', 'Women', 'Bags', 'Jewelry', 'Watches'],
+];
 
     return view('men.index', compact('products', 'availableColors', 'subcategories'));
 }

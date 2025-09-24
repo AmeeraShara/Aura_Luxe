@@ -89,7 +89,7 @@
               <ul class="dropdown-menu" aria-labelledby="menDropdown">
                 <li><a class="dropdown-item" href="{{ route('men.index') }}">All Men</a></li>
                 @if(isset($subcategories) && count($subcategories))
-                @foreach($subcategories as $sub)
+                @foreach($subcategories['Men'] as $sub)
                 <li>
                   <a class="dropdown-item" href="{{ route('men.index', ['subcategory' => $sub]) }}">
                     {{ $sub }}
@@ -107,16 +107,16 @@
               </a>
               <ul class="dropdown-menu" aria-labelledby="womenDropdown">
                 <li><a class="dropdown-item" href="{{ route('women.index') }}">All Women</a></li>
-                                @if(isset($subcategories) && count($subcategories))
+                @if(isset($subcategories) && count($subcategories))
 
-                @foreach($subcategories as $sub)
+                @foreach($subcategories['Women'] as $sub)
                 <li>
                   <a class="dropdown-item" href="{{ route('women.index', ['subcategory' => $sub]) }}">
                     {{ $sub }}
                   </a>
                 </li>
                 @endforeach
-                                @endif
+                @endif
 
               </ul>
             </li>
@@ -128,16 +128,16 @@
               </a>
               <ul class="dropdown-menu" aria-labelledby="kidsDropdown">
                 <li><a class="dropdown-item" href="{{ route('kids.index') }}">All Kids</a></li>
-                                                @if(isset($subcategories) && count($subcategories))
+                @if(isset($subcategories) && count($subcategories))
 
-                @foreach($subcategories as $sub)
+                @foreach($subcategories['Kids'] as $sub)
                 <li>
                   <a class="dropdown-item" href="{{ route('kids.index', ['subcategory' => $sub]) }}">
                     {{ $sub }}
                   </a>
                 </li>
                 @endforeach
-                                @endif
+                @endif
 
               </ul>
             </li>
@@ -154,16 +154,15 @@
               </a>
               <ul class="dropdown-menu" aria-labelledby="accessoriesDropdown">
                 <li><a class="dropdown-item" href="{{ route('accessories.index') }}">All Accessories</a></li>
-                                                @if(isset($subcategories) && count($subcategories))
-
-                @foreach($subcategories as $sub)
+                @if(isset($subcategories) && count($subcategories))
+                @foreach($subcategories['Accessories'] as $sub)
                 <li>
                   <a class="dropdown-item" href="{{ route('accessories.index', ['subcategory' => $sub]) }}">
                     {{ $sub }}
                   </a>
                 </li>
                 @endforeach
-                                @endif
+                @endif
 
               </ul>
             </li>

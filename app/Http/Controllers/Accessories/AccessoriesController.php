@@ -49,10 +49,12 @@ public function index(Request $request)
         ->all();
 
     // ✅ Distinct subcategories for Accessories
-    $subcategories = Product::where('category', 'Accessories')
-        ->whereNotNull('subcategory')
-        ->distinct()
-        ->pluck('subcategory');
+$subcategories = [
+    'Men' => ['Shirts', 'T-Shirts', 'Bottoms', 'Trousers', 'Shoes'],
+    'Women' => ['Dresses', 'Tops', 'Shoes'],
+    'Kids' => ['Boys', 'Girls'],
+    'Accessories' => ['Men', 'Women', 'Bags', 'Jewelry', 'Watches'],
+];
 
     return view('accessories.index', compact('products', 'availableColors', 'subcategories'));
 }

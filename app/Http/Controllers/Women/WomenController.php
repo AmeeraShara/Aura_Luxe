@@ -50,10 +50,12 @@ class WomenController extends Controller
         ->all();
 
     // ✅ Fetch distinct subcategories for Women
-    $subcategories = Product::where('category', 'Women')
-        ->whereNotNull('subcategory')
-        ->distinct()
-        ->pluck('subcategory');
+$subcategories = [
+    'Men' => ['Shirts', 'T-Shirts', 'Bottoms', 'Trousers', 'Shoes'],
+    'Women' => ['Dresses', 'Tops', 'Shoes'],
+    'Kids' => ['Boys', 'Girls'],
+    'Accessories' => ['Men', 'Women', 'Bags', 'Jewelry', 'Watches'],
+];
 
     return view('women.index', compact('products', 'availableColors', 'subcategories'));
 }

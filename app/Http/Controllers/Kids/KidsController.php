@@ -51,10 +51,12 @@ public function index(Request $request)
         ->all();
 
     // ✅ Fetch distinct subcategories for Kids
-    $subcategories = Product::where('category', 'Kids')
-        ->whereNotNull('subcategory')
-        ->distinct()
-        ->pluck('subcategory');
+  $subcategories = [
+    'Men' => ['Shirts', 'T-Shirts', 'Bottoms', 'Trousers', 'Shoes'],
+    'Women' => ['Dresses', 'Tops', 'Shoes'],
+    'Kids' => ['Boys', 'Girls'],
+    'Accessories' => ['Men', 'Women', 'Bags', 'Jewelry', 'Watches'],
+];
 
     return view('kids.index', compact('products', 'availableColors', 'subcategories'));
 }

@@ -252,6 +252,32 @@
         window.addEventListener("DOMContentLoaded", () => {
             colorContainer.appendChild(createColorInput());
         });
+
+        // Custom reset handler
+        document.querySelector('button[type="reset"]').addEventListener('click', () => {
+            // Reset images
+            selectedFiles = [];
+            previewContainer.innerHTML = "";
+            input.value = "";
+
+            // Reset colors
+            colorContainer.innerHTML = "";
+            colorContainer.appendChild(createColorInput());
+
+            // Reset category & subcategory
+            categoryDropdown.value = "";
+            subcategoryDropdown.innerHTML = '<option value="">-- Select Subcategory --</option>';
+
+            // Reset checkboxes
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+
+            // Reset text, number, textarea fields
+            document.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(el => el.value = '');
+            
+            // Reset status toggle
+            const statusToggle = document.querySelector('input[name="status"]');
+            statusToggle.checked = true;
+        });
     </script>
 
 </body>
