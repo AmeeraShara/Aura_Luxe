@@ -19,6 +19,7 @@ class ProductController extends Controller
         $product = new Product();
         $product->name = $request->name;
         $product->category = $request->category;
+        $product->subcategory = $request->subcategory; 
         $product->price = $request->price;
         $product->stock_quantity = $request->stock_quantity;
         $product->sizes = $request->sizes ? implode(',', $request->sizes) : null;
@@ -42,23 +43,20 @@ class ProductController extends Controller
         return redirect()->route('products.create')->with('success', '✅ Product saved successfully!');
     }
 
+    public function show($id)
+    {
+        // Get product
+        $product = Product::findOrFail($id);
 
+        // ✅ Fetch images separately using product_id
+        $images = ProductImage::where('product_id', $id)->get();
 
-public function show($id)
-{
-    // Get product
-    $product = Product::findOrFail($id);
+        // ✅ Related products (same category, exclude current)
+        $relatedProducts = Product::where('category', $product->category)
+            ->where('id', '!=', $id)
+            ->take(4)
+            ->get();
 
-    // ✅ Fetch images separately using product_id
-    $images = ProductImage::where('product_id', $id)->get();
-
-    // ✅ Related products (same category, exclude current)
-    $relatedProducts = Product::where('category', $product->category)
-        ->where('id', '!=', $id)
-        ->take(4)
-        ->get();
-
-    return view('products.show', compact('product', 'images', 'relatedProducts'));
-}
-
+        return view('products.show', compact('product', 'images', 'relatedProducts'));
+    }
 }

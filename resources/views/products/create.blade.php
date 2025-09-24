@@ -15,7 +15,8 @@
             <h2 class="text-xl font-bold mb-6">Aura Luxe</h2>
             <nav class="space-y-2">
                 <a href="#" class="block px-3 py-2 rounded bg-gray-200">Dashboard</a>
-                <a href="{{ route('products.create') }}" class="block px-3 py-2 rounded bg-gray-300 font-semibold">Products</a>
+                <a href="{{ route('products.create') }}"
+                    class="block px-3 py-2 rounded bg-gray-300 font-semibold">Products</a>
                 <a href="#" class="block px-3 py-2 rounded bg-gray-200">Orders</a>
             </nav>
         </aside>
@@ -24,58 +25,70 @@
         <div class="flex-1 p-8">
             <h1 class="text-2xl font-semibold mb-6">Add New Product</h1>
 
-            <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6 bg-white p-6 rounded-lg shadow">
+            <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data"
+                class="space-y-6 bg-white p-6 rounded-lg shadow">
                 @csrf
 
-                <!-- Product Name + Category -->
-                <div class="grid grid-cols-2 gap-4">
+                <!-- Product Name + Category + Subcategory -->
+                <div class="grid grid-cols-3 gap-4">
+                    <!-- Name -->
                     <div>
                         <label class="block font-medium">Product Name</label>
-                        <input type="text" name="name" class="w-full border rounded-lg p-2" placeholder="Enter product name">
+                        <input type="text" name="name" class="w-full border rounded-lg p-2"
+                            placeholder="Enter product name">
                     </div>
-                    <div>
-                       <label class="block font-medium">Product Category</label>
-              <select name="category" class="w-full border rounded-lg p-2">
-                <option value="">-- Select Category --</option>
-                <option value="Men">MEN</option>
-                <option value="Women">WOMEN</option>
-                <option value="Kids">KIDS</option>
-                <option value="Dresses">DRESSES</option>
-                <option value="Formal-wear">FORMAL WEAR</option>
-                <option value="Casual">CASUAL COLLECTIONS</option>
-                <option value="Accessories">ACCESSORIES</option>
-              </select>
-            </div>
-          
 
+                    <!-- Category -->
+                    <div>
+                        <label class="block font-medium">Product Category</label>
+                        <select id="category" name="category" class="w-full border rounded-lg p-2">
+                            <option value="">-- Select Category --</option>
+                            <option value="Men">MEN</option>
+                            <option value="Women">WOMEN</option>
+                            <option value="Kids">KIDS</option>
+                            <option value="Accessories">ACCESSORIES</option>
+                        </select>
+                    </div>
+
+                    <!-- Subcategory -->
+                    <div>
+                        <label class="block font-medium">Product Subcategory</label>
+                        <select id="subcategory" name="subcategory" class="w-full border rounded-lg p-2">
+                            <option value="">-- Select Subcategory --</option>
+                        </select>
+                    </div>
                 </div>
 
                 <!-- Price + Stock -->
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block font-medium">Price</label>
-                        <input type="number" step="0.01" name="price" class="w-full border rounded-lg p-2" placeholder="LKR 0.00">
+                        <input type="number" step="0.01" name="price" class="w-full border rounded-lg p-2"
+                            placeholder="LKR 0.00">
                     </div>
                     <div>
                         <label class="block font-medium">Stock Quantity</label>
-                        <input type="number" name="stock_quantity" class="w-full border rounded-lg p-2" placeholder="0">
+                        <input type="number" name="stock_quantity" class="w-full border rounded-lg p-2"
+                            placeholder="0">
                     </div>
                 </div>
 
-                <!-- Sizes + Color -->
+                <!-- Sizes + Colors -->
                 <div class="grid grid-cols-2 gap-4">
+                    <!-- Sizes -->
                     <div>
                         <label class="block font-medium">Size Options</label>
                         <div class="flex gap-4 mt-2">
                             @foreach (['XS','S','M','L','XL','XXL','XXXL'] as $size)
-                            <label class="flex items-center gap-1">
-                                <input type="checkbox" name="sizes[]" value="{{ $size }}">
-                                {{ $size }}
-                            </label>
+                                <label class="flex items-center gap-1">
+                                    <input type="checkbox" name="sizes[]" value="{{ $size }}">
+                                    {{ $size }}
+                                </label>
                             @endforeach
                         </div>
                     </div>
-                    <!-- Multiple Color Options -->
+
+                    <!-- Colors -->
                     <div>
                         <label class="block font-medium">Color Options</label>
                         <div id="colorContainer" class="flex flex-wrap gap-3 mt-2"></div>
@@ -87,12 +100,13 @@
                     </div>
                 </div>
 
-
                 <!-- Upload Images -->
                 <div>
                     <label class="block font-medium">Upload Images</label>
-                    <div id="dropZone" class="border-2 border-dashed rounded-lg p-6 text-center cursor-pointer">
-                        <input type="file" name="images[]" multiple class="hidden" id="imagesInput" accept=".png,.jpg,.jpeg">
+                    <div id="dropZone"
+                        class="border-2 border-dashed rounded-lg p-6 text-center cursor-pointer">
+                        <input type="file" name="images[]" multiple class="hidden" id="imagesInput"
+                            accept=".png,.jpg,.jpeg">
                         <label for="imagesInput" class="cursor-pointer">
                             <div class="text-gray-600">Drag & Drop product images here or click to upload</div>
                             <small class="text-gray-400">Max 5 files, .png, .jpeg, .jpg</small>
@@ -104,10 +118,11 @@
                 <!-- Description -->
                 <div>
                     <label class="block font-medium">Description</label>
-                    <textarea name="description" class="w-full border rounded-lg p-2" rows="4" placeholder="Provide a detailed product description"></textarea>
+                    <textarea name="description" class="w-full border rounded-lg p-2" rows="4"
+                        placeholder="Provide a detailed product description"></textarea>
                 </div>
 
-                <!-- Status Toggle -->
+                <!-- Status -->
                 <div class="flex items-center justify-between border rounded-lg p-4">
                     <div>
                         <label class="block font-medium">Product Status</label>
@@ -116,7 +131,9 @@
                     <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" name="status" class="sr-only peer" checked>
                         <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-blue-600"></div>
-                        <div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition peer-checked:translate-x-5"></div>
+                        <div
+                            class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition peer-checked:translate-x-5">
+                        </div>
                     </label>
                 </div>
 
@@ -129,25 +146,47 @@
         </div>
     </div>
 
-    <!-- Script for Image Preview + Drag & Drop -->
+    <!-- Scripts -->
     <script>
+        // Category -> Subcategory mapping
+        const categoryDropdown = document.getElementById("category");
+        const subcategoryDropdown = document.getElementById("subcategory");
+
+        const subcategories = {
+            "Men": ["Shirts", "T-Shirts", "Bottoms", "Trousers", "Shoes"],
+            "Women": ["Dresses", "Tops", "Shoes"],
+            "Kids": ["Boys", "Girls"],
+            "Accessories": ["Men", "Women", "Bags", "Jewelry", "Watches"]
+        };
+
+        categoryDropdown.addEventListener("change", function() {
+            const selectedCategory = this.value;
+            subcategoryDropdown.innerHTML =
+                '<option value="">-- Select Subcategory --</option>';
+
+            if (subcategories[selectedCategory]) {
+                subcategories[selectedCategory].forEach(sub => {
+                    const option = document.createElement("option");
+                    option.value = sub;
+                    option.textContent = sub;
+                    subcategoryDropdown.appendChild(option);
+                });
+            }
+        });
+
+        // Image upload & preview
         const input = document.getElementById("imagesInput");
         const previewContainer = document.getElementById("previewContainer");
         const dropZone = document.getElementById("dropZone");
-
         let selectedFiles = [];
 
         function handleFiles(files) {
             const newFiles = Array.from(files);
-
-            // merge but keep max 5
             selectedFiles = [...selectedFiles, ...newFiles].slice(0, 5);
 
-            // clear previews & redraw all
             previewContainer.innerHTML = "";
             selectedFiles.forEach(file => {
                 if (!file.type.startsWith("image/")) return;
-
                 const reader = new FileReader();
                 reader.onload = e => {
                     const img = document.createElement("img");
@@ -161,15 +200,12 @@
 
         input.addEventListener("change", () => handleFiles(input.files));
 
-        // Drag & Drop Support
         dropZone.addEventListener("dragover", e => {
             e.preventDefault();
             dropZone.classList.add("bg-gray-100");
         });
 
-        dropZone.addEventListener("dragleave", () => {
-            dropZone.classList.remove("bg-gray-100");
-        });
+        dropZone.addEventListener("dragleave", () => dropZone.classList.remove("bg-gray-100"));
 
         dropZone.addEventListener("drop", e => {
             e.preventDefault();
@@ -183,6 +219,7 @@
             input.files = dataTransfer.files;
         });
 
+        // Dynamic color inputs
         const colorContainer = document.getElementById("colorContainer");
         const addColorBtn = document.getElementById("addColorBtn");
 
@@ -200,7 +237,6 @@
             removeBtn.type = "button";
             removeBtn.textContent = "✖";
             removeBtn.classList.add("text-red-500", "hover:text-red-700");
-
             removeBtn.onclick = () => wrapper.remove();
 
             wrapper.appendChild(input);
@@ -213,12 +249,10 @@
             colorContainer.appendChild(createColorInput());
         });
 
-        // Add one default color input on load
         window.addEventListener("DOMContentLoaded", () => {
             colorContainer.appendChild(createColorInput());
         });
     </script>
-
 
 </body>
 
