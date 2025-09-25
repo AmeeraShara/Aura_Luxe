@@ -140,8 +140,9 @@
                             LKR {{ number_format($product->price, 2) }}
                         </p>
                         <a href="#" class="btn btn-outline-danger btn-sm">♡</a>
-                        <a href="{{ route('products.show', $product->id) }}" class="btn btn-outline-success btn-sm">🛒</a>
-                    </div>
+            <a href="{{ route('products.show', $product->id) }}" class="icon-btn">
+              <i class="fa fa-eye"></i>
+            </a>                    </div>
                 </div>
             </div>
         @empty

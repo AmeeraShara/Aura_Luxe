@@ -2,7 +2,6 @@
 
 @section('content')
 <style>
-    /* Filter Bar */
     .filter-bar {
         background-color: #fff;
         border: 1px solid #ddd;
@@ -56,68 +55,83 @@
     }
 
     .color-box:hover,
-    input[type="radio"]:checked+.color-box {
+    input[type="radio"]:checked + .color-box {
         border: 2px solid #000;
     }
 
-    .btn-apply {
-        background-color: #ccc;
-        border: none;
-        padding: 6px 14px;
-        font-size: 0.8rem;
-        border-radius: 4px;
-        color: #000;
-    }
-
-    /* Hide native radios */
     .hidden-radio {
         display: none;
     }
 
+    .card-img-top {
+        height: 180px;
+        object-fit: contain;
+        opacity: 0.85; 
+    }
 
     .product-card {
-        width: 160px;
-        margin: 0;
+        width: 200px;
         transition: transform 0.3s ease;
-    }
-
-    .card-img-top {
-        height: 250px;
-        object-fit: cover;
-    }
-
-    .card-body .btn {
-        margin: 4px 2px;
-        font-size: 0.65rem;
+        position: relative;
+        overflow: hidden;
     }
 
     .product-card:hover {
         transform: scale(1.03);
     }
+
+    .card-body {
+        
+        text-align: center;
+    }
+
+    .card-body .btn {
+        margin: 5px 3px;
+        font-size: 0.7rem;
+    }
+
+    .icon-group {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    .icon-btn {
+        background-color: red;
+        border: none;
+        color: white;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        transition: background-color 0.3s ease;
+    }
+
+    .icon-btn:hover {
+        background-color: darkred;
+    }
 </style>
 
-
 <div class="container-fluid py-4">
+    <h2 class="fw-bold mb-4">New Arrivals</h2>
 
     <!-- FILTER BAR -->
     <form method="GET" action="{{ route('newarrival.index') }}" id="filter-form">
         <div class="filter-bar">
-
-            <!-- Filter Icon -->
-            <div class="filter-icon">
-                <span>🔽 Filter</span>
-            </div>
+            <div class="filter-icon"><span>🔽 Filter</span></div>
 
             <!-- Sizes -->
             <div class="filter-section">
                 <span>Size:</span>
-                @foreach(['XS', 'S', 'M', 'L', 'XL' ,'XXL' , 'XXXL'] as $size)
+                @foreach(['XS','S','M','L','XL','XXL','XXXL'] as $size)
                 <label>
-                    <input
-                        type="radio"
-                        name="size"
-                        value="{{ $size }}"
-                        class="hidden-radio filter-input"
+                    <input type="radio" name="size" value="{{ $size }}" class="hidden-radio filter-input"
                         {{ request('size') === $size ? 'checked' : '' }}>
                     <span class="size-button {{ request('size') === $size ? 'active' : '' }}">{{ $size }}</span>
                 </label>
@@ -129,19 +143,14 @@
                 <span>Color:</span>
                 @foreach($availableColors as $color)
                 <label>
-                    <input
-                        type="radio"
-                        name="color"
-                        value="{{ $color }}"
-                        class="hidden-radio filter-input"
+                    <input type="radio" name="color" value="{{ $color }}" class="hidden-radio filter-input"
                         {{ request('color') === $color ? 'checked' : '' }}>
                     <span class="color-box" style="<?php echo 'background-color:' . $color; ?>;" data-color="<?php echo $color; ?>"></span>
-
                 </label>
                 @endforeach
             </div>
 
-            <!-- Reset Button -->
+            <!-- Reset -->
             <div class="ms-auto">
                 <a href="{{ route('newarrival.index') }}" class="btn btn-sm btn-outline-secondary">Reset</a>
             </div>
@@ -156,20 +165,27 @@
                 @php
                 $firstImagePath = optional($product->images_collection->first())->path;
                 @endphp
-                <img
-                    src="{{ $firstImagePath ? asset($firstImagePath) : asset('images/no-image.png') }}"
+                <img src="{{ $firstImagePath ? asset($firstImagePath) : asset('images/no-image.png') }}"
                     alt="{{ $product->name }}"
                     class="card-img-top">
-                <div class="card-body text-center">
+
+                <div class="card-body">
+                    <div class="icon-group">
+                        <button class="icon-btn" aria-label="Add to Wishlist"><i class="fa fa-heart"></i></button>
+                        <a href="{{ route('products.show', $product->id) }}" class="icon-btn" aria-label="View Product">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                    </div>
+
                     <h5 class="card-title">{{ $product->name }}</h5>
-                    <p class="card-text">LKR {{ number_format($product->price, 2) }}</p>
-                    <a href="#" class="btn btn-outline-danger btn-sm">♡</a>
-                    <a href="{{ route('products.show', ['id' => $product->id]) }}" class="btn btn-outline-success btn-sm">🛒</a>
+                    <p class="card-text text-danger  fw-bold">
+                        LKR {{ number_format($product->price, 2) }}
+                    </p>
                 </div>
             </div>
         </div>
         @empty
-        <p>No products found.</p>
+        <p>No new arrival products found.</p>
         @endforelse
     </div>
 
@@ -179,16 +195,12 @@
     </div>
 </div>
 
-<!-- Auto-submit script -->
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const filterInputs = document.querySelectorAll('.filter-input');
-        const filterForm = document.getElementById('filter-form');
-
-        filterInputs.forEach(input => {
-            input.addEventListener('change', () => {
-                filterForm.submit();
+        document.querySelectorAll('.filter-input').forEach(input => {
+            input.addEventListener('change', function() {
+                document.getElementById('filter-form').submit();
             });
         });
     });

@@ -11,23 +11,43 @@ use App\Models\ProductImage;
 class HomeController extends Controller
 {
     public function index()
-    {
-        // Latest 8 active products with first image eager loaded
-        $products = Product::where('status', 1)
-            ->orderBy('created_at', 'desc')
-            ->take(8)
-            ->get()
-            ->map(function($product) {
-                $product->first_image = ProductImage::where('product_id', $product->id)->first()->path ?? 'images/default.jpg';
-                return $product;
-            });
+{
+    // 1. Latest 8 active products with their first image
+    $products = Product::where('status', 1)
+        ->latest()
+        ->take(8)
+        ->get()
+        ->map(function($product) {
+            $image = ProductImage::where('product_id', $product->id)->first();
+            $product->first_image = $image ? asset($image->path) : asset('images/default.jpg');
+            return $product;
+        });
 
-        // Distinct categories for Shop by Category
-        $categories = Product::select('category')
-            ->whereNotNull('category')
-            ->distinct()
-            ->get();
+    // 2. Define specific categories or pull distinct ones
+    $categoryList = ['Men', 'Women', 'Kids', 'Sale', 'Accessories']; // Optional: static list
+    $collections = [];
 
-        return view('front', compact('products', 'categories'));
+    foreach ($categoryList as $category) {
+        $product = Product::where('category', $category)->first();
+
+        if ($product) {
+            $image = ProductImage::where('product_id', $product->id)->first();
+            $collections[] = [
+                'name' => $category,
+                'route' => strtolower($category) . '.index',
+                'image' => $image ? asset($image->path) : asset('images/no-image.png'),
+            ];
+        } else {
+            // No product found, fallback image
+            $collections[] = [
+                'name' => $category,
+                'route' => strtolower($category) . '.index',
+                'image' => asset('images/no-image.png'),
+            ];
+        }
     }
+
+    return view('front', compact('products', 'collections'));
+}
+
 }

@@ -2,6 +2,7 @@
 
 @section('content')
 <style>
+    /* Filter Bar */
     .filter-bar {
         background-color: #fff;
         border: 1px solid #ddd;
@@ -55,7 +56,7 @@
     }
 
     .color-box:hover,
-    input[type="radio"]:checked+.color-box {
+    input[type="radio"]:checked + .color-box {
         border: 2px solid #000;
     }
 
@@ -63,23 +64,51 @@
         display: none;
     }
 
-    .card-img-top {
-        height: 180px;
-        object-fit: contain;
-    }
-
+    /* Product Card */
     .product-card {
         width: 200px;
         transition: transform 0.3s ease;
+        position: relative;
     }
 
     .product-card:hover {
         transform: scale(1.03);
     }
 
-    .card-body .btn {
-        margin: 5px 3px;
-        font-size: 0.7rem;
+    .card-img-top {
+        height: 180px;
+        object-fit: contain;
+    }
+
+    .card-body {
+        text-align: center;
+    }
+
+    /* Icon Buttons */
+    .icon-btn {
+        background-color: #dc3545; /* Bootstrap danger red */
+        border: none;
+        color: white;
+        padding: 8px 10px;
+        font-size: 14px;
+        border-radius: 50%;
+        cursor: pointer;
+        margin: 0 3px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+    }
+
+    .icon-btn:hover {
+        background-color: #b02a37; /* darker red */
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .card-body .icon-btn {
+        margin-top: 5px;
     }
 </style>
 
@@ -132,11 +161,13 @@
                 @php $firstImagePath = optional($product->images_collection->first())->path; @endphp
                 <img src="{{ $firstImagePath ? asset($firstImagePath) : asset('images/no-image.png') }}"
                     alt="{{ $product->name }}" class="card-img-top">
-                <div class="card-body text-center">
+                <div class="card-body">
                     <h5 class="card-title">{{ $product->name }}</h5>
-                    <p class="card-text">LKR {{ number_format($product->price, 2) }}</p>
-                    <a href="#" class="btn btn-outline-danger btn-sm">♡</a>
-                    <a href="{{ route('products.show', ['id' => $product->id]) }}" class="btn btn-outline-success btn-sm">🛒</a>
+                    <p class="card-text text-danger fw-bold">LKR {{ number_format($product->price, 2) }}</p>
+                    <button class="icon-btn" aria-label="Add to Wishlist"><i class="fa fa-heart"></i></button>
+                    <a href="{{ route('products.show', $product->id) }}" class="icon-btn" aria-label="View Product">
+                      <i class="fa fa-eye"></i>
+                    </a>
                 </div>
             </div>
         </div>

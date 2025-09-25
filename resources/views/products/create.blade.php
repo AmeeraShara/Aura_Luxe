@@ -46,7 +46,9 @@
                             <option value="Men">MEN</option>
                             <option value="Women">WOMEN</option>
                             <option value="Kids">KIDS</option>
+                            <option value="Sale">SALE</option>
                             <option value="Accessories">ACCESSORIES</option>
+
                         </select>
                     </div>
 
