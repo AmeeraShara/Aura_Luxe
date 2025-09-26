@@ -64,7 +64,13 @@
       <!-- Icons Right -->
       <div class="d-flex gap-3 fs-5">
         <a href="#" class="text-dark"><i class="fa fa-search"></i></a>
-        <a href="#" class="text-dark"><i class="fa fa-user"></i></a>
+        <a href="#" 
+   class="text-dark" 
+   data-bs-toggle="offcanvas" 
+   data-bs-target="#registerSidebar">
+   <i class="fa fa-user"></i>
+</a>
+
         <a href="#" class="text-dark"><i class="fa fa-shopping-cart"></i></a>
       </div>
     </div>
