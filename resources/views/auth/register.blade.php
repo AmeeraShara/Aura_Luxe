@@ -3,8 +3,8 @@
 @section('content')
 
 <!-- Register Floating Box -->
-<div id="registerBox" class="position-fixed top-50 end-0 translate-middle-y me-5 bg-white shadow-lg rounded p-4"
-     style="width: 350px; display: none; z-index:1050;">
+<div id="registerBox" class="position-absolute top-20 end-0 translate-middle-y me-5 bg-white shadow-lg rounded p-4"
+     style="width: 350px; display: none; z-index:1050; margin-top: 30px">
     
     <!-- Close Icon -->
     <button type="button" class="btn-close position-absolute top-0 end-0 m-2" id="closeRegister"></button>
