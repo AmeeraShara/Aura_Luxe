@@ -68,6 +68,120 @@
             color: #fff;
             border-color: #000;
         }
+
+        .related-product img {
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            text-align: center;
+        }
+
+        .card-body .btn {
+            margin: 5px 3px;
+            font-size: 0.7rem;
+        }
+
+        .icon-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .icon-btn {
+            background-color: red;
+            border: none;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        .icon-btn:hover {
+            background-color: darkred;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .product-wrapper {
+                display: flex;
+                flex-direction: column;
+                overflow: visible;
+            }
+
+            .product-images,
+            .product-details {
+                float: none !important;
+                width: 100% !important;
+                text-align: center;
+                margin-bottom: 1.5rem;
+            }
+
+            .product-images img.main {
+                width: 100%;
+                max-width: 300px;
+                height: auto;
+                margin: 0 auto 1rem;
+                display: block;
+            }
+
+            .thumbnails {
+                display: flex;
+                overflow-x: auto;
+                justify-content: center;
+                gap: 0.5rem;
+                padding-bottom: 0.5rem;
+            }
+
+            .thumbnails img {
+                flex: 0 0 auto;
+                width: 70px;
+                height: 85px;
+                margin: 0;
+                border-radius: 6px;
+            }
+
+            .color-circle,
+            .size-button {
+                margin-bottom: 0.5rem;
+            }
+
+            form button[type="submit"] {
+                width: 100% !important;
+                max-width: none !important;
+            }
+
+            .mt-16 > div {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 1rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-images img.main {
+                max-width: 100%;
+                height: auto;
+            }
+
+            .thumbnails img {
+                width: 60px;
+                height: 75px;
+            }
+
+            .icon-btn {
+                padding: 8px;
+                font-size: 14px;
+            }
+        }
     </style>
 
     <!-- Product Section -->
@@ -76,10 +190,10 @@
         <!-- LEFT: Images -->
         <div class="product-images">
             @if($images->isNotEmpty())
-            <img src="{{ asset($images->first()->path) }}" id="mainImage" class="main mb-4">
+            <img src="{{ asset($images->first()->path) }}" id="mainImage" class="main mb-4" alt="{{ $product->name }}">
             <div class="thumbnails">
                 @foreach($images as $image)
-                <img src="{{ asset($image->path) }}" onclick="document.getElementById('mainImage').src=this.src">
+                <img src="{{ asset($image->path) }}" onclick="document.getElementById('mainImage').src=this.src" alt="{{ $product->name }} thumbnail">
                 @endforeach
             </div>
             @endif
@@ -99,7 +213,7 @@
                 @if($product->colors)
                 <div class="mt-6">
                     <p class="font-medium mb-2">Colors:</p>
-                    <div class="flex space-x-2 flex-wrap">
+                    <div class="flex space-x-2 flex-wrap justify-center">
                         @foreach(explode(',', $product->colors) as $color)
                         @php $clr = trim($color); @endphp
                         <label>
@@ -114,7 +228,7 @@
                 @if($product->sizes)
                 <div class="mt-6">
                     <p class="font-medium mb-2">Sizes:</p>
-                    <div class="flex space-x-2 flex-wrap">
+                    <div class="flex space-x-2 flex-wrap justify-center">
                         @foreach(explode(',', $product->sizes) as $size)
                         <label>
                             <input type="checkbox" name="selected_sizes[]" value="{{ trim($size) }}" class="hidden">
@@ -126,9 +240,9 @@
                 @endif
 
                 <!-- Quantity -->
-                <div class="flex items-center mb-4 mt-6">
-                    <label class="mr-3 font-medium">Qty:</label>
-                    <input type="number" name="quantity" value="1" min="1" class="w-20 border px-2 py-1 rounded">
+                <div class="flex items-center mb-4 mt-6 justify-center">
+                    <label class="mr-3 font-medium" for="quantity">Qty:</label>
+                    <input id="quantity" type="number" name="quantity" value="1" min="1" class="w-20 border px-2 py-1 rounded">
                 </div>
 
                 <!-- Submit -->
@@ -144,25 +258,34 @@
         </div>
     </div>
 
-<!-- Related Products -->
-<!-- Related Products -->
-<div class="mt-16 clear-both">
-    <h2 class="text-xl font-bold mb-6">Related Products</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-        @foreach($relatedProducts as $related)
-        <div class="border p-2 rounded shadow hover:shadow-lg transition">
-            <img src="{{ $related->first_image ? asset($related->first_image) : asset('uploads/products/default.jpg') }}"
-                 class="w-full h-64 object-cover rounded">
+    <!-- Related Products -->
+    <div class="mt-16 clear-both">
+        <h2 class="text-xl font-bold mb-6">Related Products</h2>
+        <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1.5rem;">
+            @foreach($relatedProducts as $related)
+            <div class="border p-2 rounded shadow hover:shadow-lg transition related-product relative">
 
-            <h3 class="mt-2 font-semibold">{{ $related->name }}</h3>
-            <p class="text-gray-600">LKR {{ number_format($related->price, 2) }}</p>
+                <img src="{{ $related->first_image ? asset($related->first_image) : asset('uploads/products/default.jpg') }}"
+                    alt="{{ $related->name }}"
+                    class="w-full rounded">
+
+                <div class="card-body">
+                    <div class="icon-group">
+                        <button class="icon-btn" aria-label="Add to Wishlist"><i class="fa fa-heart"></i></button>
+                        <a href="{{ route('products.show', $related->id) }}" class="icon-btn" aria-label="View Product">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                    </div>
+                    <h5 class="card-title">{{ $related->name }}</h5>
+                    <p class="card-text text-danger fw-bold">
+                        LKR {{ number_format($related->price, 2) }}
+                    </p>
+                </div>
+
+            </div>
+            @endforeach
         </div>
-        @endforeach
     </div>
-</div>
-
-
-
 
 </div>
 
