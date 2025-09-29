@@ -43,20 +43,28 @@ class ProductController extends Controller
         return redirect()->route('products.create')->with('success', '✅ Product saved successfully!');
     }
 
+
+
     public function show($id)
-    {
-        // Get product
-        $product = Product::findOrFail($id);
+{
+    // Get product
+    $product = Product::findOrFail($id);
 
-        // ✅ Fetch images separately using product_id
-        $images = ProductImage::where('product_id', $id)->get();
+    // ✅ Get images for this product
+    $images = ProductImage::where('product_id', $id)->get();
 
-        // ✅ Related products (same category, exclude current)
-        $relatedProducts = Product::where('category', $product->category)
-            ->where('id', '!=', $id)
-            ->take(4)
-            ->get();
+    // ✅ Related products (same category, exclude current)
+    $relatedProducts = Product::where('category', $product->category)
+        ->where('id', '!=', $id)
+        ->take(4)
+        ->get();
 
-        return view('products.show', compact('product', 'images', 'relatedProducts'));
+    // ✅ Attach first image manually to each related product
+    foreach ($relatedProducts as $related) {
+        $related->first_image = ProductImage::where('product_id', $related->id)->value('path');
     }
+
+    return view('products.show', compact('product', 'images', 'relatedProducts'));
+}
+
 }

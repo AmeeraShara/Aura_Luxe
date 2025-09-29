@@ -144,23 +144,25 @@
         </div>
     </div>
 
-    <!-- Related Products -->
-    <div class="mt-16 clear-both">
-        <h2 class="text-xl font-bold mb-6">Related Products</h2>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            @foreach($relatedProducts as $related)
-            <div class="border p-2 rounded shadow hover:shadow-lg transition">
-                @if($related->images->isNotEmpty())
-                <img src="{{ asset($related->images->first()->path) }}" class="w-full h-64 object-cover rounded">
-                @else
-                <img src="{{ asset('uploads/products/default.jpg') }}" class="w-full h-64 object-cover rounded">
-                @endif
-                <h3 class="mt-2 font-semibold">{{ $related->name }}</h3>
-                <p class="text-gray-600">LKR {{ number_format($related->price, 2) }}</p>
-            </div>
-            @endforeach
+<!-- Related Products -->
+<!-- Related Products -->
+<div class="mt-16 clear-both">
+    <h2 class="text-xl font-bold mb-6">Related Products</h2>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        @foreach($relatedProducts as $related)
+        <div class="border p-2 rounded shadow hover:shadow-lg transition">
+            <img src="{{ $related->first_image ? asset($related->first_image) : asset('uploads/products/default.jpg') }}"
+                 class="w-full h-64 object-cover rounded">
+
+            <h3 class="mt-2 font-semibold">{{ $related->name }}</h3>
+            <p class="text-gray-600">LKR {{ number_format($related->price, 2) }}</p>
         </div>
+        @endforeach
     </div>
+</div>
+
+
+
 
 </div>
 
