@@ -121,41 +121,11 @@
 <div class="container-fluid py-4">
     <h2 class="fw-bold mb-4">New Arrivals</h2>
 
-    <!-- FILTER BAR -->
-    <form method="GET" action="{{ route('newarrival.index') }}" id="filter-form">
-        <div class="filter-bar">
-            <div class="filter-icon"><span>🔽 Filter</span></div>
+<!-- FILTER BAR -->
+<form method="GET" action="{{ route('newarrival.index') }}" id="filter-form">
+    @include('components.filter-bar')
+</form>
 
-            <!-- Sizes -->
-            <div class="filter-section">
-                <span>Size:</span>
-                @foreach(['XS','S','M','L','XL','XXL','XXXL'] as $size)
-                <label>
-                    <input type="radio" name="size" value="{{ $size }}" class="hidden-radio filter-input"
-                        {{ request('size') === $size ? 'checked' : '' }}>
-                    <span class="size-button {{ request('size') === $size ? 'active' : '' }}">{{ $size }}</span>
-                </label>
-                @endforeach
-            </div>
-
-            <!-- Colors -->
-            <div class="filter-section">
-                <span>Color:</span>
-                @foreach($availableColors as $color)
-                <label>
-                    <input type="radio" name="color" value="{{ $color }}" class="hidden-radio filter-input"
-                        {{ request('color') === $color ? 'checked' : '' }}>
-                    <span class="color-box" style="<?php echo 'background-color:' . $color; ?>;" data-color="<?php echo $color; ?>"></span>
-                </label>
-                @endforeach
-            </div>
-
-            <!-- Reset -->
-            <div class="ms-auto">
-                <a href="{{ route('newarrival.index') }}" class="btn btn-sm btn-outline-secondary">Reset</a>
-            </div>
-        </div>
-    </form>
 
     <!-- PRODUCT GRID -->
     <div class="row mt-4 product-grid">
