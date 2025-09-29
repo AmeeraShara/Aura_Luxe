@@ -61,6 +61,7 @@
             border-radius: 6px;
             cursor: pointer;
             transition: 0.2s;
+            user-select: none;
         }
 
         .size-button.selected {
@@ -216,9 +217,7 @@
                     <div class="flex space-x-2 flex-wrap justify-center">
                         @foreach(explode(',', $product->colors) as $color)
                         @php $clr = trim($color); @endphp
-                        <label>
-                            <input type="checkbox" name="selected_colors[]" value="{{ $clr }}" class="hidden">
-                            <span class="color-circle" style="<?php echo 'background-color:' . $clr; ?>;" data-color="<?php echo $clr; ?>"></span> </label>
+                        <span class="color-circle" style="<?php echo 'background-color:' . $color; ?>;" data-color="<?php echo $color; ?>"></span>
                         @endforeach
                     </div>
                 </div>
@@ -230,14 +229,13 @@
                     <p class="font-medium mb-2">Sizes:</p>
                     <div class="flex space-x-2 flex-wrap justify-center">
                         @foreach(explode(',', $product->sizes) as $size)
-                        <label>
-                            <input type="checkbox" name="selected_sizes[]" value="{{ trim($size) }}" class="hidden">
-                            <span class="size-button">{{ trim($size) }}</span>
-                        </label>
+                        <span class="size-button" data-size="{{ trim($size) }}">{{ trim($size) }}</span>
                         @endforeach
                     </div>
                 </div>
                 @endif
+
+                <br>
 
                 <!-- Quantity -->
                 <div class="flex items-center mb-4 mt-6 justify-center">
@@ -290,21 +288,44 @@
 </div>
 
 <script>
-    // Toggle color selection
-    document.querySelectorAll('.color-circle').forEach(circle => {
-        circle.addEventListener('click', function() {
-            this.classList.toggle('selected');
-            const checkbox = this.previousElementSibling;
-            checkbox.checked = !checkbox.checked;
+    document.addEventListener('DOMContentLoaded', () => {
+        // Toggle color selection
+        document.querySelectorAll('.color-circle').forEach(circle => {
+            circle.addEventListener('click', function() {
+                this.classList.toggle('selected');
+            });
         });
-    });
 
-    // Toggle size selection
-    document.querySelectorAll('.size-button').forEach(button => {
-        button.addEventListener('click', function() {
-            this.classList.toggle('selected');
-            const checkbox = this.previousElementSibling;
-            checkbox.checked = !checkbox.checked;
+        // Toggle size selection
+        document.querySelectorAll('.size-button').forEach(button => {
+            button.addEventListener('click', function() {
+                this.classList.toggle('selected');
+            });
+        });
+
+        // On form submit, add hidden inputs for selected colors and sizes
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (e) => {
+            // Remove existing hidden inputs if any
+            form.querySelectorAll('input[name="selected_colors[]"], input[name="selected_sizes[]"]').forEach(input => input.remove());
+
+            // Append hidden inputs for selected colors
+            document.querySelectorAll('.color-circle.selected').forEach(circle => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'selected_colors[]';
+                input.value = circle.dataset.color;
+                form.appendChild(input);
+            });
+
+            // Append hidden inputs for selected sizes
+            document.querySelectorAll('.size-button.selected').forEach(button => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = 'selected_sizes[]';
+                input.value = button.dataset.size;
+                form.appendChild(input);
+            });
         });
     });
 </script>
