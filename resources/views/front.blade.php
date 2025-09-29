@@ -260,7 +260,10 @@
     </div>
   </div>
 </section>
-
+<!-- PAGINATION -->
+<div class="d-flex justify-content-center mt-4">
+    {{ $products->withQueryString()->links('vendor.pagination.bullet') }}
+</div>
 
 <!-- SHOP BY CATEGORY -->
 <section class="py-5 bg-light">
@@ -283,6 +286,8 @@
 
 <!-- Spacer -->
 <div class="py-5"></div>
+
+
 
 <script>
   // NAV scrolled class
