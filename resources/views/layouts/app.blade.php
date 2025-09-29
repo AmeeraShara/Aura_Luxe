@@ -224,7 +224,7 @@
             <ul class="list-unstyled small">
               <li><a href="{{ route('contact.index') }}" class="text-secondary text-decoration-none">Contact Us</a></li>
               <li><a href="#" class="text-secondary text-decoration-none">Shipping & Returns</a></li>
-              <li><a href="#" class="text-secondary text-decoration-none">Size Guide</a></li>
+              <li><a href="{{ route('size-guide.index') }}" class="text-secondary text-decoration-none">Size Guide</a></li>
               <li><a href="#" class="text-secondary text-decoration-none">FAQ</a></li>
             </ul>
           </div>

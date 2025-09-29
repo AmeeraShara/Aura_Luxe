@@ -66,3 +66,6 @@ Route::get('/accessories', [AccessoriesController::class, 'index'])->name('acces
 
 //Collections Page 
 Route::get('/collections', [CollectionController::class, 'index'])->name('collections.index');
+
+//Size guide 
+Route::view('/size-guide', 'size-guide.index')->name('size-guide.index');
