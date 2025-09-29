@@ -82,72 +82,106 @@
     transform: translateY(-6px);
     box-shadow: 0 14px 30px rgba(20, 20, 20, 0.08);
   }
+.product-image-wrapper {
+  position: relative;
+  overflow: hidden;
+}
 
-  .product-overlay {
-    position: absolute;
-    left: 12px;
-    right: 12px;
-    top: 12px;
-    display: flex;
-    gap: 8px;
-    justify-content: flex-end;
-    pointer-events: none;
-    opacity: 0;
-    transform: translateY(-6px);
-    transition: all .22s ease;
+.product-image-wrapper img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  display: block;
+}
+.product-overlay-glass {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 2;
+  transition: none;
+}
+.product-card:hover .product-overlay-glass {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+/* Glass effect background */
+.glass-bg-icons {
+  background: rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  padding: 40px 120px;
+  display: flex;
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Icon button styles */
+.icon-btn {
+  background-color: rgba(255, 0, 0, 0.85);
+  border: none;
+  color: white;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.icon-btn:hover {
+  background-color: darkred;
+}
+
+/* Responsive image height */
+@media (max-width: 576px) {
+  .product-image-wrapper img {
+    height: 260px;
   }
+}
 
-  .product-card:hover .product-overlay {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-
-  .icon-btn {
-    border: none;
-    background: rgba(255, 255, 255, 0.95);
-    width: 40px;
-    height: 40px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-    cursor: pointer;
-    transition: transform .15s ease;
-  }
-
-  .icon-btn:hover {
-    transform: scale(1.06);
+  .product-info {
+    background: #fff;
   }
 
   /* ---- CATEGORY CARDS ---- */
   .category-card {
-    position: relative;
-    overflow: hidden;
-    display: block;
     border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    background: #f9f9f9;
+    transition: transform .25s ease, box-shadow .25s ease;
   }
 
-  .category-card img {
-    width: 100%;
-    height: 260px;
-    object-fit: cover;
-    transition: transform .5s ease;
-  }
+.category-card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
 
-  .category-card:hover img {
-    transform: scale(1.06);
-  }
+.category-card:hover img {
+  transform: scale(1.05);
+  filter: brightness(0.85);
+}
+
 
   .category-text {
     position: absolute;
-    left: 24px;
-    top: 24px;
+    left: 12px;
+    bottom: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
     color: #fff;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+    text-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
   }
 
   /* ---- REVEAL ANIMATIONS ---- */
@@ -172,6 +206,7 @@
       padding: 4rem 0;
     }
   }
+
 </style>
 
 <!-- HERO -->
@@ -191,51 +226,58 @@
     <h3 class="text-center fw-bold mb-4">NEW ARRIVALS</h3>
     <div class="row g-3">
       @forelse($products as $product)
-      <div class="col-6 col-md-3">
-        <div class="product-card reveal">
-          <img src="{{ asset($product->first_image) }}"
-            alt="{{ $product->name }}"
-            class="img-fluid">
+        <div class="col-6 col-md-3">
+          <div class="product-card reveal position-relative">
 
-          <div class="product-overlay">
-            <button class="icon-btn"><i class="fa fa-heart"></i></button>
+            <!-- Image Wrapper -->
+            <div class="product-image-wrapper">
+              <img src="{{ asset($product->first_image) }}" alt="{{ $product->name }}" class="img-fluid w-100">
 
-            <a href="{{ route('products.show', $product->id) }}" class="icon-btn">
-              <i class="fa fa-eye"></i>
-            </a>
-          </div>
+              <!-- Icon Buttons in Image (Bottom with Glass Background) -->
+              <div class="product-overlay-glass">
+                <div class="glass-bg-icons">
+                  <button class="icon-btn" aria-label="Add to Wishlist">
+                    <i class="fa fa-heart"></i>
+                  </button>
+                  <a href="{{ route('products.show', $product->id) }}" class="icon-btn" aria-label="View Product">
+                    <i class="fa fa-eye"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
 
+            <!-- Product Info -->
+            <div class="product-info text-center p-2">
+              <div class="small text-muted">{{ $product->name }}</div>
+              <div class="fw-bold">LKR {{ number_format($product->price, 2) }}</div>
+            </div>
 
-          <div class="product-info text-center p-2">
-            <div class="small text-muted">{{ $product->name }}</div>
-            <div class="fw-bold">LKR {{ number_format($product->price, 2) }}</div>
           </div>
         </div>
-      </div>
       @empty
-      <p class="text-center">No products found.</p>
+        <p class="text-center">No products found.</p>
       @endforelse
     </div>
   </div>
 </section>
 
+
 <!-- SHOP BY CATEGORY -->
 <section class="py-5 bg-light">
-  <div class="row g-4 justify-content-center">
-
-    @foreach($collections as $collection)
-    <div class="col-md-4">
-      <a href="{{ route($collection['route']) }}" class="text-decoration-none">
-        <div class="card collection-card h-100 shadow-sm">
-          <img src="{{ $collection['image'] }}" class="card-img-top" alt="{{ $collection['name'] }}">
-          <div class="card-body text-center">
-            <h5 class="card-title fw-bold">{{ $collection['name'] }}</h5>
+  <div class="container">
+    <h3 class="text-center fw-bold mb-4">SHOP BY CATEGORY</h3>
+    <div class="row g-3 justify-content-center">
+      @foreach($collections as $collection)
+      <div class="col-6 col-md-3 col-lg-2">
+        <a href="{{ route($collection['route']) }}" class="text-decoration-none">
+          <div class="category-card reveal shadow-sm">
+            <img src="{{ $collection['image'] }}" alt="{{ $collection['name'] }}">
+            <div class="category-text">{{ $collection['name'] }}</div>
           </div>
-        </div>
-      </a>
+        </a>
+      </div>
+      @endforeach
     </div>
-    @endforeach
-
   </div>
 </section>
 
@@ -254,7 +296,7 @@
     window.addEventListener('scroll', onScroll);
     onScroll();
 
-    // IntersectionObserver for reveal animations
+    // Reveal animations
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         if (e.isIntersecting) {
@@ -262,9 +304,7 @@
           obs.unobserve(e.target);
         }
       });
-    }, {
-      threshold: 0.12
-    });
+    }, { threshold: 0.12 });
 
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
   })();

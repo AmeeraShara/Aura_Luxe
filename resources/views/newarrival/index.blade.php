@@ -55,7 +55,7 @@
     }
 
     .color-box:hover,
-    input[type="radio"]:checked + .color-box {
+    input[type="radio"]:checked+.color-box {
         border: 2px solid #000;
     }
 
@@ -66,7 +66,7 @@
     .card-img-top {
         height: 180px;
         object-fit: contain;
-        opacity: 0.85; 
+        opacity: 0.85;
     }
 
     .product-card {
@@ -81,7 +81,7 @@
     }
 
     .card-body {
-        
+
         text-align: center;
     }
 
@@ -109,7 +109,7 @@
         justify-content: center;
         align-items: center;
         text-decoration: none;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         transition: background-color 0.3s ease;
     }
 
@@ -169,6 +169,7 @@
                     alt="{{ $product->name }}"
                     class="card-img-top">
 
+
                 <div class="card-body">
                     <div class="icon-group">
                         <button class="icon-btn" aria-label="Add to Wishlist"><i class="fa fa-heart"></i></button>
@@ -176,7 +177,6 @@
                             <i class="fa fa-eye"></i>
                         </a>
                     </div>
-
                     <h5 class="card-title">{{ $product->name }}</h5>
                     <p class="card-text text-danger  fw-bold">
                         LKR {{ number_format($product->price, 2) }}
