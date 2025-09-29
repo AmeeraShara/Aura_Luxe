@@ -69,3 +69,6 @@ Route::get('/collections', [CollectionController::class, 'index'])->name('collec
 
 //Size guide 
 Route::view('/size-guide', 'size-guide.index')->name('size-guide.index');
+
+//FAQ
+Route::get('/faq', function () {return view('faq');})->name('faq.index');

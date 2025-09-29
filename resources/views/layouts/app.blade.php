@@ -225,7 +225,7 @@
               <li><a href="{{ route('contact.index') }}" class="text-secondary text-decoration-none">Contact Us</a></li>
               <li><a href="#" class="text-secondary text-decoration-none">Shipping & Returns</a></li>
               <li><a href="{{ route('size-guide.index') }}" class="text-secondary text-decoration-none">Size Guide</a></li>
-              <li><a href="#" class="text-secondary text-decoration-none">FAQ</a></li>
+              <li><a href="{{ route('faq.index') }}" class="text-secondary text-decoration-none">FAQ</a></li>
             </ul>
           </div>
         </div>
@@ -262,10 +262,13 @@
 
   </footer>
 
-  <!-- Message Icon -->
-  <div class="chat-icon">
+<!-- Message Icon -->
+<div class="chat-icon">
+  <a href="{{ route('contact.index') }}" class="text-secondary text-decoration-none">
     <i class="fas fa-comment"></i>
-  </div>
+  </a>
+</div>
+
 
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
