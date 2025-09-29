@@ -159,10 +159,10 @@
         @endforelse
     </div>
 
-    <!-- PAGINATION -->
-    <div class="d-flex justify-content-center">
-        {{ $products->withQueryString()->links() }}
-    </div>
+<!-- PAGINATION -->
+<div class="d-flex justify-content-center mt-4">
+    {{ $products->withQueryString()->links('vendor.pagination.bullet') }}
+</div>
 </div>
 
 @push('scripts')
