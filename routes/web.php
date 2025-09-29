@@ -12,6 +12,9 @@ use App\Http\Controllers\Kids\KidsController;
 use App\Http\Controllers\Sale\SaleController;
 use App\Http\Controllers\Accessories\AccessoriesController;
 use App\Http\Controllers\Collections\CollectionController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
+
 
 
 Route::get('/', function () {
@@ -72,3 +75,11 @@ Route::view('/size-guide', 'size-guide.index')->name('size-guide.index');
 
 //FAQ
 Route::get('/faq', function () {return view('faq');})->name('faq.index');
+
+// Authentication
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/logout', function() {
+    auth()->logout();
+    return redirect()->route('front');
+})->name('logout');
