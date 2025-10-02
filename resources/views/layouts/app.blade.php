@@ -65,7 +65,9 @@
       <div class="d-flex gap-3 fs-5">
         <a href="#" class="text-dark"><i class="fa fa-search"></i></a>
         <a href="#" class="text-dark"><i class="fa fa-user"></i></a>
-        <a href="#" class="text-dark"><i class="fa fa-shopping-cart"></i></a>
+<a href="{{ route('cart.index', ['user_id' => Auth::id()]) }}" class="text-dark">
+    <i class="fa fa-shopping-cart"></i>
+</a>
 
       </div>
     </div>

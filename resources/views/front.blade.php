@@ -47,20 +47,7 @@
     padding-bottom: 8px;
   }
 
-  .nav .nav-link::after {
-    content: "";
-    position: absolute;
-    height: 2px;
-    left: 0;
-    bottom: 0;
-    width: 0;
-    background: #000;
-    transition: width .28s ease;
-  }
-
-  .nav .nav-link:hover::after {
-    width: 100%;
-  }
+  
 
   /* ---- PRODUCT CARDS ---- */
   .product-card {
@@ -215,7 +202,8 @@
     <div class="container text-center text-white">
       <h1 class="display-4 fw-bold hero-title">AUTUMN COLLECTION 2025</h1>
       <p class="lead mb-4">Aura Luxe — Everyday Detail</p>
-      <a href="#" class="btn btn-light rounded-0 px-4 py-2">Shop New Arrivals</a>
+      <a href="{{ route('newarrival.index') }}" class="btn btn-light rounded-0 px-4 py-2">Shop New Arrivals</a>
+      
     </div>
   </div>
 </section>
@@ -249,7 +237,7 @@
             <!-- Product Info -->
             <div class="product-info text-center p-2">
               <div class="small text-muted">{{ $product->name }}</div>
-              <div class="fw-bold">LKR {{ number_format($product->price, 2) }}</div>
+              <div class="fw-bold text-danger">LKR {{ number_format($product->price, 2) }}</div>
             </div>
 
           </div>
