@@ -7,15 +7,17 @@ use App\Models\Product;
 
 class CartItem extends Model
 {
-   protected $fillable = [
-        'product_id',
-        'product_name',
-        'product_price',
-        'product_image',
-        'selected_colors',
-        'selected_sizes',
-        'quantity',
-    ];
+ protected $fillable = [
+    'user_id',
+    'product_id',
+    'product_name',
+    'product_price',
+    'product_image',
+    'selected_colors',
+    'selected_sizes',
+    'quantity',
+];
+
 
     protected $casts = [
         'selected_colors' => 'array',

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Cart\CartItem;
 use App\Models\Product;
 use App\Models\ProductImage;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -15,6 +16,11 @@ class CartController extends Controller
      */
     public function add(Request $request, $productId)
     {
+
+            if (!Auth::check()) {
+        // If not logged in, show login form popup OR redirect to login
+        return redirect()->route('login')->with('error', 'You must log in to add items to cart.');
+    }
         $product = Product::with('images')->findOrFail($productId);
         $firstImage = ProductImage::where('product_id', $productId)->first()->path ?? null;
 
@@ -23,6 +29,7 @@ class CartController extends Controller
         $selectedSizes  = $request->input('selected_sizes', []);  
 
         CartItem::create([
+                'user_id'        => Auth::id(),
             'product_id'      => $product->id,
             'product_name'    => $product->name,
             'product_price'   => $product->price,
@@ -40,7 +47,11 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cartItems = CartItem::all();
+            if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Please log in to view your cart.');
+    }
+
+    $cartItems = CartItem::where('user_id', Auth::id())->get();
 
         // ✅ Totals
         $subtotal = $cartItems->sum(fn($item) => $item->product_price * $item->quantity);
@@ -56,7 +67,10 @@ class CartController extends Controller
      */
     public function remove($id)
     {
-        CartItem::destroy($id);
+            if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Please log in first.');
+    }
+        CartItem::where('user_id', Auth::id())->where('id', $id)->delete();
         return redirect()->route('cart.index')->with('success', '🗑 Item removed.');
     }
 
@@ -65,6 +79,9 @@ class CartController extends Controller
      */
     public function update(Request $request, $id)
     {
+            if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Please log in first.');
+    }
         $item = CartItem::findOrFail($id);
         $item->update(['quantity' => $request->quantity]);
         return redirect()->route('cart.index')->with('success', '🔄 Quantity updated.');

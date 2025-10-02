@@ -6,6 +6,10 @@
 <div class="container">
     <h1 class="cart-title">🛒 Your Shopping Cart</h1>
 
+        @auth
+        <p class="text-muted">Logged in as: <strong>{{ Auth::user()->email }}</strong></p>
+    @endauth
+    
     @if($cartItems->isEmpty())
     <div class="empty-cart">
         <p>Your cart is currently empty.</p>

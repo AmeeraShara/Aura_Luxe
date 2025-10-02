@@ -244,14 +244,26 @@
                 </div>
 
                 <!-- Submit -->
-                <button type="submit"
-                    class="w-full md:w-80 text-base font-medium px-10 py-2 rounded-lg shadow-md 
-                           flex items-center justify-center gap-2 focus:outline-none focus:ring-0 transition-colors duration-300 ease-in-out"
-                    style="background-color: white !important; color: black !important; border: none !important;"
-                    onmouseover="this.style.backgroundColor='black'; this.style.color='white';"
-                    onmouseout="this.style.backgroundColor='white'; this.style.color='black';">
-                    🛒 <span>Add to Cart</span>
-                </button>
+<!-- If logged in -->
+@auth
+<form method="POST" action="{{ route('cart.add', $product->id) }}" class="mt-8">
+    @csrf
+    <!-- (colors, sizes, quantity inputs remain same) -->
+    <button type="submit"
+        class="w-full md:w-80 text-base font-medium px-10 py-2 rounded-lg shadow-md">
+        🛒 <span>Add to Cart</span>
+    </button>
+</form>
+@endauth
+
+<!-- If not logged in -->
+@guest
+    <button type="button" id="openLoginFromCart"
+        class="w-full md:w-80 text-base font-medium px-10 py-2 rounded-lg shadow-md">
+        🛒 <span>Add to Cart</span>
+    </button>
+@endguest
+
             </form>
         </div>
     </div>
@@ -288,6 +300,19 @@
 </div>
 
 <script>
+    
+document.addEventListener("DOMContentLoaded", () => {
+    const openLoginFromCart = document.getElementById("openLoginFromCart");
+    const loginBox = document.getElementById("loginBox");
+
+    if (openLoginFromCart) {
+        openLoginFromCart.addEventListener("click", (e) => {
+            e.preventDefault();
+            loginBox.style.display = "block";
+        });
+    }
+});
+
     document.addEventListener('DOMContentLoaded', () => {
         // Toggle color selection
         document.querySelectorAll('.color-circle').forEach(circle => {
