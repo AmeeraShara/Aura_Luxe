@@ -94,3 +94,6 @@ Route::post('/checkout', [CheckoutController::class, 'placeOrder'])->name('check
 
 //Newsletter
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
+
+//search
+Route::get('/api/search-suggestions', [\App\Http\Controllers\Product\ProductController::class, 'suggestions']);

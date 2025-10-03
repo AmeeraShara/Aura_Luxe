@@ -63,7 +63,22 @@
 
       <!-- Icons Right -->
       <div class="d-flex gap-3 fs-5">
-        <a href="#" class="text-dark"><i class="fa fa-search"></i></a>
+        
+<!-- Search Feature -->
+<div class="d-flex align-items-center gap-2">
+
+
+  <!-- Always-visible search input -->
+  <div class="position-relative" style="width: 200px;">
+    <input type="text" id="liveSearchInput" class="form-control" placeholder="Search products..." autocomplete="off">
+    <ul id="suggestionsList" class="list-group position-absolute w-100 mt-1 shadow" style="z-index: 1050;"></ul>
+  </div>
+    <!-- Search Icon -->
+  <a href="#" id="searchToggle" class="text-dark">
+    <i class="fa fa-search"></i>
+  </a>
+</div>
+
 
         @guest
         <!-- Show login/register trigger when guest -->
@@ -408,7 +423,60 @@
     messageDiv.classList.add('text-danger');
   });
 });
-  </script>
+
+document.addEventListener("DOMContentLoaded", () => {
+  const searchToggle = document.getElementById("searchToggle");
+  const searchBox = document.getElementById("searchBox");
+  const searchInput = document.getElementById("liveSearchInput");
+  const suggestionsList = document.getElementById("suggestionsList");
+
+  searchToggle.addEventListener("click", (e) => {
+    e.preventDefault();
+    searchBox.classList.toggle("d-none");
+    searchInput.focus();
+  });
+
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.trim();
+
+    if (query.length < 2) {
+      suggestionsList.innerHTML = '';
+      return;
+    }
+
+    fetch(`/api/search-suggestions?query=${query}`)
+      .then(response => response.json())
+      .then(data => {
+        suggestionsList.innerHTML = '';
+        if (data.length > 0) {
+          data.forEach(product => {
+            const li = document.createElement("li");
+            li.classList.add("list-group-item", "list-group-item-action");
+            li.textContent = product.name;
+            li.addEventListener("click", () => {
+              window.location.href = `/products/${product.id}`;
+            });
+            suggestionsList.appendChild(li);
+          });
+        } else {
+          const li = document.createElement("li");
+          li.classList.add("list-group-item", "text-muted");
+          li.textContent = "No matches found";
+          suggestionsList.appendChild(li);
+        }
+      });
+  });
+
+  // Hide suggestion list when clicking outside
+  document.addEventListener("click", function(e) {
+    if (!searchBox.contains(e.target) && !searchToggle.contains(e.target)) {
+      searchBox.classList.add("d-none");
+      suggestionsList.innerHTML = '';
+    }
+  });
+});
+</script>
+
 
 </body>
 

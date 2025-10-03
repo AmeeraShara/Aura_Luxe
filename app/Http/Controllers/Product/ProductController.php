@@ -50,21 +50,37 @@ class ProductController extends Controller
     // Get product
     $product = Product::findOrFail($id);
 
-    // ✅ Get images for this product
+    //  Get images for this product
     $images = ProductImage::where('product_id', $id)->get();
 
-    // ✅ Related products (same category, exclude current)
+    //  Related products (same category, exclude current)
     $relatedProducts = Product::where('category', $product->category)
         ->where('id', '!=', $id)
         ->take(4)
         ->get();
 
-    // ✅ Attach first image manually to each related product
+    // Attach first image manually to each related product
     foreach ($relatedProducts as $related) {
         $related->first_image = ProductImage::where('product_id', $related->id)->value('path');
     }
 
     return view('products.show', compact('product', 'images', 'relatedProducts'));
+}
+
+public function suggestions(Request $request)
+{
+    $query = $request->query('query');
+
+    if (!$query || strlen($query) < 2) {
+        return response()->json([]);
+    }
+
+    $products = Product::where('name', 'like', '%' . $query . '%')
+        ->where('status', 1)
+        ->limit(5)
+        ->get(['id', 'name']);
+
+    return response()->json($products);
 }
 
 }
