@@ -15,6 +15,7 @@ use App\Http\Controllers\Collections\CollectionController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Checkout\CheckoutController;
+use App\Http\Controllers\NewsletterController;
 
 
 
@@ -90,3 +91,6 @@ Route::post('/register', [RegisterController::class, 'register'])->name('registe
 //Checkout
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 Route::post('/checkout', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');
+
+//Newsletter
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');

@@ -239,17 +239,27 @@
           </div>
         </div>
       </div>
-    </div> <!-- Newsletter -->
+    </div> 
+    <!-- Newsletter -->
     <div class="bg-white text-dark border-top py-5">
       <div class="container text-center">
         <h5 class="fw-bold mb-3">JOIN OUR NEWSLETTER</h5>
         <p class="text-muted small mb-4">Subscribe to receive updates, access to exclusive deals, and more.</p>
-        <form class="row justify-content-center g-2">
-          <div class="col-12 col-md-4"> <input type="email" class="form-control rounded-0" placeholder="Enter your email"> </div>
-          <div class="col-12 col-md-auto"> <button type="submit" class="btn btn-dark rounded-0 w-100">SUBSCRIBE</button> </div>
-        </form>
+       <form id="newsletterForm" class="row justify-content-center g-2">
+  <div class="col-12 col-md-4">
+    <label for="emailInput" class="visually-hidden">Email address</label>
+    <input type="email" id="emailInput" class="form-control rounded-0" placeholder="Enter your email" required>
+  </div>
+  <div class="col-12 col-md-auto">
+    <button type="submit" class="btn btn-dark rounded-0 w-100">SUBSCRIBE</button>
+  </div>
+</form>
+
+<div id="newsletterMessage" class="mt-3 text-success" style="display: none;"></div>
+
       </div>
-    </div> <!-- Bottom -->
+    </div>
+     <!-- Bottom -->
     <div class="bg-white border-top text-center text-muted small py-5">
       <p class="mb-4"> <span class="d-block d-md-inline px-md-5">No 20 Kandy Road, Kandy</span> <span class="d-block d-md-inline px-md-5">Hotline: +94 711355535</span> <span class="d-block d-md-inline px-md-5">hello@auraluxe.com</span> </p>
       <p class="mb-0"> © 2024 Aura Luxe. All rights reserved. </p>
@@ -370,6 +380,34 @@
         });
       }
     });
+
+    document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const email = document.getElementById('emailInput').value;
+  const messageDiv = document.getElementById('newsletterMessage');
+
+  fetch("{{ route('newsletter.subscribe') }}", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    },
+    body: JSON.stringify({ email: email })
+  })
+  .then(res => res.json())
+  .then(data => {
+    messageDiv.style.display = 'block';
+    messageDiv.textContent = data.message;
+    document.getElementById('newsletterForm').reset();
+  })
+  .catch(err => {
+    messageDiv.style.display = 'block';
+    messageDiv.textContent = 'This email is already subscribed or invalid.';
+    messageDiv.classList.remove('text-success');
+    messageDiv.classList.add('text-danger');
+  });
+});
   </script>
 
 </body>
