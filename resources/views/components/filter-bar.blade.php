@@ -44,7 +44,7 @@
     }
 
     .size-button {
-        padding: 0.5rem 1rem;
+        padding: 0.3rem 0.6rem;
         border: 1px solid #ccc;
         border-radius: 4px;
         cursor: pointer;
@@ -101,8 +101,8 @@
         }
 
         .color-box {
-            width: 20px;
-            height: 20px;
+            width: 25px;
+            height: 15x;
         }
     }
 </style>

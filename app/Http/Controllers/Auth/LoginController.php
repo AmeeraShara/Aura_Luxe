@@ -8,31 +8,31 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+    public function showLoginForm()
+    {
+        return view('auth.login'); 
+    }
+
     public function login(Request $request)
     {
-        // Validate the login credentials
         $credentials = $request->validate([
-            'email'    => ['required', 'email'],
+            'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        // Attempt login
         if (Auth::attempt($credentials, $request->filled('remember'))) {
-            $request->session()->regenerate(); // prevent session fixation
-            $user = Auth::user();
+            $request->session()->regenerate();
 
-            // Redirect based on role
-            if ($user->role === 'admin') {
-                return redirect()->route('products.create')->with('success', 'Welcome Admin!');
-            } else {
-                return redirect()->route('cart.index')->with('success', 'Login Successful!');
+            if (Auth::user()->role === 'admin') {
+                return redirect()->route('products.create'); 
             }
+
+            return redirect()->intended('/'); 
         }
 
-        // Login failed
         return back()->withErrors([
-            'email' => 'Invalid email or password.',
-        ])->withInput($request->only('email'));
+            'email' => 'The provided credentials do not match our records.',
+        ]);
     }
 
     public function logout(Request $request)
@@ -40,6 +40,7 @@ class LoginController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('/')->with('success', 'Logged out successfully.');
+
+        return redirect('/');
     }
 }

@@ -11,8 +11,8 @@ class SaleController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::query();
-
+    $query = Product::where('category', 'Sale')
+        ->orderBy('created_at', 'desc');
         // Size filter
         if ($request->filled('size')) {
             $query->where('sizes', 'like', "%{$request->size}%");
@@ -31,10 +31,10 @@ class SaleController extends Controller
         }
 
         // Available colors for filter
-        $colorQuery = Product::query();
-        if ($request->filled('size')) {
-            $colorQuery->where('sizes', 'like', "%{$request->size}%");
-        }
+    $colorQuery = Product::where('category', 'Sale');
+    if ($request->filled('size')) {
+        $colorQuery->where('sizes', 'like', "%{$request->size}%");
+    }
 
         $availableColors = $colorQuery->pluck('colors')
             ->flatMap(fn($colors) => array_map('trim', explode(',', $colors)))

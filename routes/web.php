@@ -77,13 +77,15 @@ Route::view('/size-guide', 'size-guide.index')->name('size-guide.index');
 //FAQ
 Route::get('/faq', function () {return view('faq');})->name('faq.index');
 
-// Authentication
-Route::post('/register', [RegisterController::class, 'register'])->name('register');
-Route::post('/login', [LoginController::class, 'login'])->name('login');
-Route::post('/logout', function() {
-    auth()->logout();
-    return redirect()->route('front');
-})->name('logout');
+
+// LOGIN
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+// REGISTER
+Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register.form');
+Route::post('/register', [RegisterController::class, 'register'])->name('register.submit');
 
 //Checkout
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
